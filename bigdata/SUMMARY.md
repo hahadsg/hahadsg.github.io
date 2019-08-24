@@ -1,6 +1,5 @@
 # Summary
 
-* [Introduction](README.md)
 * [Spark](spark.md)
 * [redshift](redshift.md)
 * [kafka](kafka.md)

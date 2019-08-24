@@ -1,6 +1,5 @@
 # Summary
 
-* [Introduction](README.md)
 * [My Python Package](my-python-package.md)
 * [iPython Note](ipython-note.md)
 * [Pandas Note](pandas-note.md)

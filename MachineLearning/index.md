@@ -1,6 +1,5 @@
 # Summary
 
-* [Introduction](README.md)
 * [Neural Networks](neural-networks.md)
 * [Face Recognition](face-recognition.md)
 * [Deep Learning Problem](deep-learning-problem.md)
@@ -10,7 +9,6 @@
 * [SVM](svm.md)
 * [EM](em.md)
 * [GMM](gmm.md)
-* [Factorization Machine](factorization-machine.md)
 * [Association Analysis](association-analysis.md)
 * [Metrics](metrics.md)
 * [Feature Engineering](feature-engineering.md)

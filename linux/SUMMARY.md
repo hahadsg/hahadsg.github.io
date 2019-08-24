@@ -1,6 +1,5 @@
 # Summary
 
-* [Introduction](README.md)
 * [Linux Command](linux_command.md)
 * [Linux File System](linux-file-system.md)
 * [Vi Command](vi-command.md)
