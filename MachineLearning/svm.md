@@ -48,41 +48,42 @@ $$d^* \le p^*$$
 $$\hat\gamma_i = |wx_i+b| = y_i(wx_i+b)$$
 
 几何间隔：
-$$\gamma_i = \frac{|wx_i+b|}{||w||} = \frac{y_i(wx_i+b)}{||w||}$$
+$$\gamma_i = \frac{|wx_i+b|}{\lVert w \rVert} = \frac{y_i(wx_i+b)}{\lVert w \rVert}$$
 
 它们之间的关系是：
-$$\gamma_i = \frac{\hat\gamma_i}{||w||}$$
+$$\gamma_i = \frac{\hat\gamma_i}{\lVert w \rVert}$$
 
 ![](./assets/svm/geometric_margin.png)
 
 我们先假设数据线性可分，基于上面的想法，我们想让离分类边界（几何间隔）最近的点，尽可能离分类边界远，也就是使，
 
 $$
-\begin {aligned}
+\begin{aligned}
 &\max \quad \gamma \\
-&s.t. \quad \frac{y_i(wx_i+b)}{||w||} \ge \gamma 
+&s.t. \quad \frac{y_i(wx_i+b)}{\lVert w \rVert} \ge \gamma 
 \end{aligned}
 $$
 
 转化成函数间隔后，
+
 $$
-\begin {aligned}
-&\max \quad \frac{\hat\gamma}{||w||} \\
+\begin{aligned}
+&\max \quad \frac{\hat\gamma}{\lVert w \rVert} \\
 &s.t. \quad y_i(wx_i+b) \ge \hat\gamma 
 \end{aligned}
 $$
 
-由于我们求 $$\frac{\hat\gamma}{||w||}$$ 最大时，$$\hat\gamma$$ 的取值不会影响这个最优化问题，所以我们取 $$\hat\gamma=1$$，则最优化问题变成了，
+由于我们求$$\frac{\hat\gamma}{\lVert w \rVert}$$最大时，$$\hat\gamma$$的取值不会影响这个最优化问题，所以我们取$$\hat\gamma=1$$，则最优化问题变成了，
 
 $$
-\begin {aligned}
-&\min \quad \frac{1}{2}||w||^2 \\
+\begin{aligned}
+&\min \quad \frac{1}{2}\lVert w \rVert^2 \\
 &s.t. \quad y_i(wx_i+b) \ge 1 
 \end{aligned}
 $$
 
 根据这个最优化问题，我们列出拉格朗日函数，
-$$L(w,b,\alpha) = \frac{1}{2}||w||^2 + \sum\limits^N_{i=1}\alpha_i [y_i(wx_i+b)-1] $$
+$$L(w,b,\alpha) = \frac{1}{2}\lVert w \rVert^2 + \sum\limits^N_{i=1}\alpha_i [y_i(wx_i+b)-1] $$
 
 那么，原问题就是，
 $$p^* = \min\limits_{w,b} \max\limits_{\alpha} L(w,b,\alpha)$$
@@ -129,7 +130,7 @@ $$\hat\gamma_i = y_i(wx_i+b) \ge 1-\xi_i$$
 这时候优化问题变成了，
 $$
 \begin {aligned}
-&\min \quad \frac{1}{2}||w||^2 + C\sum\limits^N_{i=1}\xi_i \\
+&\min \quad \frac{1}{2}\lVert w \rVert^2 + C\sum\limits^N_{i=1}\xi_i \\
 &s.t. \quad y_i(wx_i+b) \ge 1 
 \end{aligned}
 $$
