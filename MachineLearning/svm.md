@@ -72,7 +72,7 @@ $$
 \end{aligned}
 $$
 
-由于我们求$$\frac{\hat\gamma}{||w||}$$最大时，$$\hat\gamma$$的取值不会影响这个最优化问题，所以我们取$$\hat\gamma=1$$，则最优化问题变成了，
+由于我们求 $$\frac{\hat\gamma}{||w||}$$ 最大时，$$\hat\gamma$$ 的取值不会影响这个最优化问题，所以我们取 $$\hat\gamma=1$$，则最优化问题变成了，
 
 $$
 \begin {aligned}
