@@ -20,31 +20,29 @@
 
 * **forward propagate**
 
-  $$Z^{[1]}=W^{[1]}X+b^{[1]}$$
-
-  $$A^{[1]}=g^{[1]}(Z^{[1]})$$
-
-  $$Z^{[2]}=W^{[2]}A^{[1]}+b^{[2]}$$
-
-  $$A^{[2]}=g^{[2]}(Z^{[2]})$$
+$$
+\begin{aligned}
+&Z^{[1]}=W^{[1]}X+b^{[1]} \\
+&A^{[1]}=g^{[1]}(Z^{[1]}) \\
+&Z^{[2]}=W^{[2]}A^{[1]}+b^{[2]} \\
+&A^{[2]}=g^{[2]}(Z^{[2]}) \\
+\end{aligned}
+$$
 
 * **back propagate**
 
-  $$\frac{\partial{J}}{\partial{A^{[2]}}} = \frac{\partial{}}{\partial{A^{[2]}}}(-YlogA^{[2]}-(1-Y)log(1-A^{[2]}))$$\(如果是交叉熵损失的话\)
-
-  $$\frac{\partial{J}}{\partial{Z^{[2]}}} = \frac{\partial{J}}{\partial{A^{[2]}}} * g^{[2]'}(Z^{[2]}) = A^{[2]}-Y$$\(如果g是sigmoid的话\)
-
-  $$\frac{\partial{J}}{\partial{W^{[2]}}} = \frac{\partial{J}}{\partial{Z^{[2]}}} \cdot A^{[1]T} \cdot \frac{1}{m}$$
-
-  $$\frac{\partial{J}}{\partial{b^{[2]}}} = \frac{\partial{J}}{\partial{Z^{[2]}}} .sum(axis=1)$$
-
-  $$\frac{\partial{J}}{\partial{A^{[1]}}} = W^{[2]T} \cdot \frac{\partial{J}}{\partial{Z^{[2]}}}$$
-
-  $$\frac{\partial{J}}{\partial{Z^{[1]}}} = \frac{\partial{J}}{\partial{A^{[1]}}} * g^{[1]'}(Z^{[1]})$$
-
-  $$\frac{\partial{J}}{\partial{W^{[1]}}} = \frac{\partial{J}}{\partial{Z^{[1]}}} \cdot A^{[0]T} \cdot \frac{1}{m}$$
-
-  $$\frac{\partial{J}}{\partial{b^{[1]}}} = \frac{\partial{J}}{\partial{Z^{[1]}}} .sum(axis=1)$$
+$$
+\begin{aligned}
+&\frac{\partial{J}}{\partial{A^{[2]}}} = \frac{\partial{}}{\partial{A^{[2]}}}(-YlogA^{[2]}-(1-Y)log(1-A^{[2]})) (如果是交叉熵损失的话) \\
+&\frac{\partial{J}}{\partial{Z^{[2]}}} = \frac{\partial{J}}{\partial{A^{[2]}}} * g^{[2]'}(Z^{[2]}) = A^{[2]}-Y (如果g是sigmoid的话) \\
+&\frac{\partial{J}}{\partial{W^{[2]}}} = \frac{\partial{J}}{\partial{Z^{[2]}}} \cdot A^{[1]T} \cdot \frac{1}{m} \\
+&\frac{\partial{J}}{\partial{b^{[2]}}} = \frac{\partial{J}}{\partial{Z^{[2]}}} .sum(axis=1) \\
+&\frac{\partial{J}}{\partial{A^{[1]}}} = W^{[2]T} \cdot \frac{\partial{J}}{\partial{Z^{[2]}}} \\
+&\frac{\partial{J}}{\partial{Z^{[1]}}} = \frac{\partial{J}}{\partial{A^{[1]}}} * g^{[1]'}(Z^{[1]}) \\
+&\frac{\partial{J}}{\partial{W^{[1]}}} = \frac{\partial{J}}{\partial{Z^{[1]}}} \cdot A^{[0]T} \cdot \frac{1}{m} \\
+&\frac{\partial{J}}{\partial{b^{[1]}}} = \frac{\partial{J}}{\partial{Z^{[1]}}} .sum(axis=1) \\
+\end{aligned}
+$$
 
 ## W初始化问题
 
@@ -218,13 +216,13 @@
 
 Propose regions是指大致找出物体所在位置
 
-R-CNN: Propose regions(traditional segmentation algorithms). Classify proposed regions one at a time. Output label + bounding box.
+**R-CNN**: Propose regions(traditional segmentation algorithms). Classify proposed regions one at a time. Output label + bounding box.
 候选框 + 缩放 + CNN提取特征 + SVM
 
-Fast R-CNN: Propose regions. User convolution implementation of sliding windows to classify all the proposed regions.
+**Fast R-CNN**: Propose regions. User convolution implementation of sliding windows to classify all the proposed regions.
 候选框 + ROI pooling + CNN
 
-Faster R-CNN: Use convolutional network to propose regions.
+**Faster R-CNN**: Use convolutional network to propose regions.
 整图进CNN+PRN（Region Proposal Networks，archorBox + softmax）+ softmax
 
 
@@ -245,11 +243,13 @@ $$J_{content}(C,G) =  \frac{1}{4 \times n_H \times n_W \times n_C}\sum _{ \text{
 
 这里使用gram matrix来衡量style，具体的，它代表了每个filter之间相关程度，对角线呈现了每个filter自身的一个评判（大概是这个意思，并没有一个推导，不过实际应用起来效果不错）
 
-$${\displaystyle G_{ij} = v_{i}^T v_{j} = np.dot(v_{i}, v_{j})  }$$
-
-$$J_{style}^{[l]}(S,G) = \frac{1}{4 \times {n_C}^2 \times (n_H \times n_W)^2} \sum _{i=1}^{n_C}\sum_{j=1}^{n_C}(G^{(S)}_{ij} - G^{(G)}_{ij})^2$$
-
-$$J_{style}(S,G) = \sum_{l} \lambda^{[l]} J^{[l]}_{style}(S,G)$$
+$$
+\begin{aligned}
+&{\displaystyle G_{ij} = v_{i}^T v_{j} = np.dot(v_{i}, v_{j})  } \\
+&J_{style}^{[l]}(S,G) = \frac{1}{4 \times {n_C}^2 \times (n_H \times n_W)^2} \sum _{i=1}^{n_C}\sum_{j=1}^{n_C}(G^{(S)}_{ij} - G^{(G)}_{ij})^2 \\
+&J_{style}(S,G) = \sum_{l} \lambda^{[l]} J^{[l]}_{style}(S,G) \\
+\end{aligned}
+$$
 
 * total cost function
 
@@ -266,13 +266,14 @@ $$J(G) = \alpha J_{content}(C,G) + \beta J_{style}(S,G)$$
 
 $$r_t$$代表重置门，$$z_t$$代表更新门
 
-$$r_t = \sigma (W_r [h_{t-1},x_t] + b_r)$$
-
-$$z_t = \sigma (W_z [h_{t-1},x_t] + b_z)$$
-
-new memory $$\tilde{h_t} = tanh(W_h [r_t * h_{t-1},x_t] + b_h)$$
-
-hidden state $$h_t = z_t * \tilde{h_t} + (1-z_t) * h_{t-1}$$
+$$
+\begin{aligned}
+&r_t = \sigma (W_r [h_{t-1},x_t] + b_r) \\
+&z_t = \sigma (W_z [h_{t-1},x_t] + b_z) \\
+&new memory: \tilde{h_t} = tanh(W_h [r_t * h_{t-1},x_t] + b_h) \\
+&hidden state: h_t = z_t * \tilde{h_t} + (1-z_t) * h_{t-1} \\
+\end{aligned}
+$$
 
 直观上讲一下更新门$$z_t$$，如果它接近于0，则保留$$\tilde{h_t}$$，$$\tilde{h_t}$$可以理解为memory；如果它接近于1，则保留$$h_{t-1}$$，即上一个hidden state
 
