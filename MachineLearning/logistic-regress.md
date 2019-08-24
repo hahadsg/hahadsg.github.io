@@ -2,17 +2,23 @@
 
 $$\hat{y}$$是给定$$x$$对$$y=1$$的估计:
 $$\hat{y} = P(y=1|x)$$
+
 所以，$$1-\hat{y} = P(y=0|x)$$
 
 归纳起来，$$P(y|x)=\hat{y}^y (1-\hat{y})^{1-y}$$
+
 则$$log(P(y|x))=y*log(\hat{y})+(1-y)*log(1-\hat{y})$$
 
 那对于所有的样本，用极大似然估计：
+
 $$L=\prod P(y^{(i)}|x^{(i)})$$
+
 取对数似然，
+
 $$l=log(\prod P(y^{(i)}|x^{(i)}))=\sum y*log(\hat{y})+(1-y)*log(1-\hat{y})$$
 
 由于要最大化$$l$$，那我们的损失函数要加上负号，
+
 $$J=-\sum y*log(\hat{y})+(1-y)*log(1-\hat{y})$$
 
 ## 求导
