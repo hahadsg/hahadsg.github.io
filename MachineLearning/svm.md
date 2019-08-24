@@ -1,6 +1,7 @@
 ## 拉格朗日对偶性
 
-**原始问题** 
+* **原始问题**
+
 $$
 \begin{aligned}
 &\min \quad f(x) \\
@@ -23,18 +24,19 @@ $$\min\limits_{x} \theta_P(x) = \min\limits_{x} \max\limits_{\alpha , \beta} L(x
 定义原始问题的最优解
 $$p^* = \min\limits_{x} \theta_P(x)$$
 
-**对偶问题**
+* **对偶问题**
+
 $$\theta_D(\alpha, \beta) = \min\limits_{\alpha, \beta}L(x, \alpha, \beta)$$
 这里$$D$$代表对偶问题
 
 对偶问题的最优解，
 $$d^* = \theta_D(\alpha, \beta)$$
 
-**原始问题和对偶问题的关系**
+* **原始问题和对偶问题的关系**
 
 $$d^* \le p^*$$
 
-**KKT条件**
+* **KKT条件**
 
 满足KKT条件时，$$d^* = p^*$$
 
@@ -83,12 +85,15 @@ $$
 $$
 
 根据这个最优化问题，我们列出拉格朗日函数，
+
 $$L(w,b,\alpha) = \frac{1}{2}\lVert w \rVert^2 + \sum\limits^N_{i=1}\alpha_i [y_i(wx_i+b)-1] $$
 
 那么，原问题就是，
+
 $$p^* = \min\limits_{w,b} \max\limits_{\alpha} L(w,b,\alpha)$$
 
 它的对偶问题是，
+
 $$d^* = \max\limits_{\alpha} \min\limits_{w,b} L(w,b,\alpha)$$
 
 由于优化问题满足KKT条件，所以可以直接求解对偶问题
@@ -100,15 +105,18 @@ $$
 $$
 
 得到，
+
 $$
 w = \sum\limits^N_{i=1}\alpha_i y_i x_i \\
 \sum\limits^N_{i=1}\alpha_i y_i = 0 \\
 $$
 
 代入$$L(w,b,\alpha)$$中，得到
+
 $$L(w,b,\alpha) = \sum\limits^N_{i=1}\alpha_i - \frac{1}{2} \sum\limits^N_{i=1} \sum\limits^N_{j=1} \alpha_i \alpha_j y_i y_j x_i x_j$$
 
 然后再进行极大化过程，
+
 $$
 \begin {aligned}
 &\max \quad \sum\limits^N_{i=1}\alpha_i - \frac{1}{2} \sum\limits^N_{i=1} \sum\limits^N_{j=1} \alpha_i \alpha_j y_i y_j x_i x_j \\
@@ -120,14 +128,17 @@ $$
 根据上式可以求得$$a^*$$，则可以进一步求得$$w^*,b^*$$
 
 最终决策函数为，
+
 $$f(x) = sign(\sum\limits^N_{i=1} \alpha_i^* y_i (x\bullet x_i)+b^*)$$
 
 ## 线性支持向量机（软间隔最大化）
 
 对于实践中的数据，很多时候都是线性不可分的，所以这时候我们引入一个松弛因子$$\xi$$，则点的约束条件变成了，
+
 $$\hat\gamma_i = y_i(wx_i+b) \ge 1-\xi_i$$
 
 这时候优化问题变成了，
+
 $$
 \begin {aligned}
 &\min \quad \frac{1}{2}\lVert w \rVert^2 + C\sum\limits^N_{i=1}\xi_i \\
@@ -136,6 +147,7 @@ $$
 $$
 
 求解后得到，
+
 $$
 \begin {aligned}
 &\max \quad \sum\limits^N_{i=1}\alpha_i - \frac{1}{2} \sum\limits^N_{i=1} \sum\limits^N_{j=1} \alpha_i \alpha_j y_i y_j x_i x_j \\
@@ -143,6 +155,7 @@ $$
 &\qquad \quad 0 \le \alpha_i \le C, i=1,2,...,N 
 \end{aligned}
 $$
+
 可以看到，$$\xi$$不见了，它比线性可分支持向量机多了一个$$\alpha_i \le C$$
 不过需要注意的是$$b^*$$的公式也变了
 
@@ -172,12 +185,15 @@ $$
 **在SVM中使用**
 
 决策函数为，
+
 $$f(x) = sign(\sum\limits^N_{i=1} \alpha_i^* y_i (x\bullet x_i)+b^*)$$
 
 我们映射到高维，
+
 $$f(x) = sign(\sum\limits^N_{i=1} \alpha_i^* y_i (\phi(x)\bullet \phi(x_i))+b^*)$$
 
 转化成核函数，
+
 $$f(x) = sign(\sum\limits^N_{i=1} \alpha_i^* y_i K(x, x_i)+b^*)$$
 
 ## SVM对比Logistic Regression
