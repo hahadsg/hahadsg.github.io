@@ -1,0 +1,1 @@
+http://tool.oschina.net/uploads/apidocs/jquery/regexp.html
