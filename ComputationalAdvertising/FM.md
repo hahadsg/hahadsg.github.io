@@ -55,9 +55,9 @@ $$\sum\limits^n_{i=1}\sum\limits^n_{j=i+1}\left< v_i, v_j \right>x_ix_j = \frac{
 
 **个人感想**：模型的式子中$$x_ix_j$$其实有很多都是0，实际实现不一定要完全根据式子来，可以用像Embedding那样，直接索引获取隐变量，也就是不将原特征进行one-hot encoding，这样可以省很多时间。
 
-tensorflow版本：[source](https://github.com/hahadsg/tensorflow-FM/blob/master/test_fm.ipynb)
+我实现的tensorflow版本：[source](https://github.com/hahadsg/tensorflow-FM/blob/master/test_fm.ipynb)
 
-spark版本：[source](https://github.com/hahadsg/Spark-FM)
+我实现的spark版本：[source](https://github.com/hahadsg/Spark-FM)
 
 ## FFM(Field Factorization Machine)
 
