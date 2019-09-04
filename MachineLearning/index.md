@@ -28,3 +28,7 @@
 * [Face Recognition](face-recognition.md)
 * [Recommend System](recommend-system.md)
 
+# 概率论
+
+* [贝叶斯](probability_theory/bayes.md)
+
