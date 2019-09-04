@@ -1,7 +1,7 @@
 # Spark
 
 * [Spark](spark.md)
-* [Spark mapjoin](spark_mapjoin.md)
+* [Spark mapjoin](spark/spark_mapjoin.md)
 
 # 其他
 
