@@ -1,6 +1,5 @@
 ---
 title: hahadsg's note
-description: hahadsg' note
 ---
 
 # [计算广告](./ComputationalAdvertising/index.md)
@@ -16,3 +15,5 @@ description: hahadsg' note
 # [mac](./mac/SUMMARY.md)
 
 # [databse](./database/SUMMARY.md)
+
+# [code](./code/index.md)

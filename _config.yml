@@ -2,3 +2,5 @@ theme: jekyll-theme-architect
 
 title: hahadsg's note
 description: ''
+
+highlighter: rouge
