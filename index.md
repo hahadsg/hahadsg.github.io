@@ -11,7 +11,7 @@ description: hahadsg' note
 
 # [linux](./linux/SUMMARY.md)
 
-# [大数据](./bigdata/SUMMARY.md)
+# [大数据](./bigdata/index.md)
 
 # [mac](./mac/SUMMARY.md)
 

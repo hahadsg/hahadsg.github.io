@@ -1,15 +1,21 @@
-# Summary
+---
+title: 机器学习
+---
+
+# 深度学习
 
 * [Neural Networks](neural-networks.md)
 * [Face Recognition](face-recognition.md)
 * [Deep Learning Problem](deep-learning-problem.md)
+
+# 机器学习
+
 * [Linear Regression](linear-regression.md)
 * [Logistic Regression](logistic-regress.md)
 * [GBM](gbm.md)
 * [SVM](svm.md)
 * [EM](em.md)
 * [GMM](gmm.md)
-* [Association Analysis](association-analysis.md)
 * [Metrics](metrics.md)
 * [Feature Engineering](feature-engineering.md)
 * [Feature importance](feature-importance.md)
@@ -18,17 +24,18 @@
 * [Model Choose](model-choose.md)
 * [Overfit](overfit.md)
 * [Imbalanced  Data](imbalanced-data.md)
-* [Kaggle](kaggle.md)
-* [Neo4j](neo4j.md)
 * [Applications of ML](applications-of-ml.md)
-* [Alpha Go](alpha-go.md)
 * [Optimization](optimization.md)
-* [Social Network Analysis](social-network-analysis.md)
 * [PU Learning](pu-learning.md)
-* [Face Recognition](face-recognition.md)
 * [Recommend System](recommend-system.md)
 
 # 概率论
 
 * [贝叶斯](probability_theory/bayes.md)
 
+# 其他
+* [Kaggle](kaggle.md)
+* [Neo4j](neo4j.md)
+* [Social Network Analysis](social-network-analysis.md)
+* [Association Analysis](association-analysis.md)
+<!-- * [Alpha Go](alpha-go.md) -->
