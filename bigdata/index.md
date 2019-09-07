@@ -2,6 +2,7 @@
 
 * [Spark](spark.md)
 * [Spark mapjoin](spark/spark_mapjoin.md)
+* [Spark ml](spark/spark_ml.md)
 
 # 其他
 
@@ -13,5 +14,4 @@
 * [hive](hive.md)
 * [scala](scala.md)
 * [presto](presto.md)
-* [spark-ml](spark-ml.md)
 
