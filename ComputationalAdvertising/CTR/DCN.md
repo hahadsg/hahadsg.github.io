@@ -8,7 +8,7 @@ update_date: 2019-09-07
 
 ## 基本结构
 
-我们先看看DCN的整理结构：
+我们先看看DCN的整体结构：
 
 <img src="./assets/DCN/DCN_Architecture.png" alt="drawing" width="500"/>
 
@@ -30,9 +30,9 @@ $$x_0 = \left[ x^T_{embed, 1},...,x^T_{embed, k},x^T_{dense} \right]$$
 
 这一层的公式为：
 
-$$x_{l+1} = x_0 x_l^T W_l + b_l + x_l = f(x_l, W_l, b_l) + x_l$$
+$$x_{l+1} = x_0 x_l^T w_l + b_l + x_l = f(x_l, w_l, b_l) + x_l$$
 
-是不是看起来很像残差网络，$$f(x_l, W_l, b_l)$$就是在拟合残差$$x_{l+1} - x_l$$
+是不是看起来很像残差网络，$$f(x_l, w_l, b_l)$$就是在拟合残差$$x_{l+1} - x_l$$
 
 下图展示了具体如何得到$$x_{l+1}$$
 
@@ -40,7 +40,7 @@ $$x_{l+1} = x_0 x_l^T W_l + b_l + x_l = f(x_l, W_l, b_l) + x_l$$
 
 这里的参数数量是$$d \times L_c \times 2$$，其中，$$d$$是输入特征维度，$$L_c$$是层数
 
-（这里为什么不是$$d \times d \times L_c \times 2$$？是因为，可以先算$$x^T_l W_l$$，得到$$1 \times 1$$的阵）
+（这里为什么不是$$d \times d \times L_c \times 2$$？是因为，可以先算$$x^T_l w_l$$，得到$$1 \times 1$$的阵）
 
 另外，这一层表达了High-Order FM，第$$l$$层表达了{l+1}-way的FM，具体原因后面详解
 
@@ -78,7 +78,7 @@ $$g_l(x_0)$$相当于多项式$$P_{l+1}(x)$$，也就是相当于{l+1}-way的FM
 
 DCN扩展了FM，能够得到High-Order的FM（由Cross Network的深度决定）
 
-我们回顾一下公式：$$x_{l+1} = x_0 x_l^T W_l + b_l + x_l$$
+我们回顾一下公式：$$x_{l+1} = x_0 x_l^T w_l + b_l + x_l$$
 
 前面讲了$$x^T_i w_i$$相当于{l+1}-way的FM，而$$x_l$$拟合了0-way到l-way的FM，所以$$x_{l+1}$$就拟合了0-way到{l+1}-way的FM，每增加一层就多拟合了一项高阶FM
 
@@ -93,6 +93,10 @@ DCN扩展了FM，能够得到High-Order的FM（由Cross Network的深度决定�
 前半部分产生了$$d^2$$个$$x_i \tilde{x_j}$$的对，注意这里的$$w \in \mathbb{R}^d$$在后半部分都是一列一列的
 
 所以DCN将交叉的部分做了压缩，最终输出的不是$$d^2$$个数，而是$$d$$个数，这样做使整体效率更高
+
+# 总结
+
+DCN在DeepFM的基础上将FM部分改成了High-Order的FM，高阶的程度取决于Cross Network的深度
 
 # 参考
 
