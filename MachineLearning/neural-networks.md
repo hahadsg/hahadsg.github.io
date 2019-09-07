@@ -73,48 +73,60 @@ $$
   在实际运用中可以作为超参，比较哪种初始化好
 
 ## 梯度下降优化
------
 
-* momentum
+### momentum
 
   直观解释，球会受到前面下降的影响，有一些惯性；另外，如果某个方向波动的厉害，那么momentum能很好的处理这种情况，
 
   初始化，$$v_{dW}=0$$，$$t$$为第几个周期
 
-  每次迭代，  
-  $$v_{dW}=\beta_1 v_{dW} + (1-\beta_1) dW$$  
-  $$v_{dW}^{corrected}=\frac{1}{1-\beta_1^t} v_{dW}$$（偏差修正，一般在momentum不作修正）  
-  $$W = W - \alpha . v_{dW}$$
+  每次迭代， 
+
+  $$
+  \begin{align}
+  &v_{dW}=\beta_1 v_{dW} + (1-\beta_1) dW \\
+  &v_{dW}^{corrected}=\frac{1}{1-\beta_1^t} v_{dW}（偏差修正，一般在momentum不作修正） \\
+  &W = W - \alpha \cdot v_{dW} \\
+  \end{align}
+  $$ 
 
   关于偏差修正：在刚开始迭代的时候，v为0，接下来几次v都会非常小，偏差修正是为了纠正这个误差
 
-* RMSprop
+### RMSprop
 
   直观解释，不同方向梯度尺度不同，而学习率是同一个，所以球位移很大的方向，需要给予抑制
 
   初始化，$$s_{dW}=0$$
 
   每次迭代，  
-  $$s_{dW}=\beta_2 s_{dW} + (1-\beta_2) dW^2$$  
-  $$s_{dW}^{corrected}=\frac{1}{1-\beta_2^t} s_{dW}$$（偏差修正，一般不用）  
-  $$W = W - \alpha . \frac{dW}{\sqrt{s_{dW}} + \epsilon}$$
 
-* Adam
+  $$
+  \begin{align}
+  &s_{dW}=\beta_2 s_{dW} + (1-\beta_2) dW^2 \\
+  &s_{dW}^{corrected}=\frac{1}{1-\beta_2^t} s_{dW}（偏差修正，一般不用） \\
+  &W = W - \alpha . \frac{dW}{\sqrt{s_{dW}} + \epsilon}\\
+  \end{align}
+  $$
+
+### Adam
 
   直观解释，momentum和RMSprop的结合
 
   初始化，$$v_{dW}=0$$，$$s_{dW}=0$$
 
   每次迭代，  
-  $$v_{dW}=\beta_1 v_{dW} + (1-\beta_1) dW$$  
-  $$v_{dW}^{corrected}=\frac{1}{1-\beta_1^t} v_{dW}$$  
-  $$s_{dW}=\beta_2 s_{dW} + (1-\beta_2) dW^2$$  
-  $$s_{dW}^{corrected}=\frac{1}{1-\beta_2^t} s_{dW}$$  
-  $$W = W - \alpha . \frac{v_{dW}^{corrected}}{\sqrt{s_{dW}^{corrected}} + \epsilon}$$
 
+  $$
+  \begin{align}
+  &v_{dW}=\beta_1 v_{dW} + (1-\beta_1) dW \\
+  &v_{dW}^{corrected}=\frac{1}{1-\beta_1^t} v_{dW} \\
+  &s_{dW}=\beta_2 s_{dW} + (1-\beta_2) dW^2 \\
+  &s_{dW}^{corrected}=\frac{1}{1-\beta_2^t} s_{dW} \\
+  &W = W - \alpha . \frac{v_{dW}^{corrected}}{\sqrt{s_{dW}^{corrected}} + \epsilon} \\
+  \end{align}
+  $$
 
 ## Overfitting
------
 
 过拟合原因：数据太少 or 模型太复杂
 
@@ -137,16 +149,19 @@ $$
 * 具有轻微的正则化效果（不过这个不重要，正则化不是BN的目的）
 
   公式：  
-  $$\mu = \frac{1}{m} \sum\limits_{i} z^{(i)}$$  
-  $$\sigma^{2} = \frac{1}{m} \sum\limits_{i}(z^{(i)}-\mu)^2$$  
-  $$z^{(i)}_{norm} = \frac{z^{(i)}-\mu}{\sqrt{\sigma^2 + \epsilon}}$$  
-  $$\tilde{z}^{(i)} = \gamma z^{(i)}_{norm} + \beta$$
+
+  $$
+  \begin{align}
+  &\mu = \frac{1}{m} \sum\limits_{i} z^{(i)} \\
+  &\sigma^{2} = \frac{1}{m} \sum\limits_{i}(z^{(i)}-\mu)^2 \\
+  &z^{(i)}_{norm} = \frac{z^{(i)}-\mu}{\sqrt{\sigma^2 + \epsilon}} \\
+  &\tilde{z}^{(i)} = \gamma z^{(i)}_{norm} + \beta \\
+  \end{align}
+  $$
 
   其中，$$\gamma$$和$$\beta$$也在梯度下降的时候进行更新（像W和b一样）
 
 ## 经典的CNN
------
-
 
 * LeNet \(1986\)
 
@@ -172,7 +187,6 @@ $$
   Res block更容易学习为Identity function
 
 ## 目标探测\(object detection\)
------
 
 ### Sliding Windows
 
@@ -227,7 +241,6 @@ Propose regions是指大致找出物体所在位置
 
 
 ## Nerual Style Transfer
------
 
 ### cost function
 
@@ -258,7 +271,6 @@ $$J(G) = \alpha J_{content}(C,G) + \beta J_{style}(S,G)$$
 实际应用中，$$J(C,G)$$使用某一层来做，$$J(S,G)$$使用多层去做，效果更好
 
 ## GRU(Gated Recurrent Unit)
------
 
 ### architecture
 
@@ -278,7 +290,6 @@ $$
 直观上讲一下更新门$$z_t$$，如果它接近于0，则保留$$\tilde{h_t}$$，$$\tilde{h_t}$$可以理解为memory；如果它接近于1，则保留$$h_{t-1}$$，即上一个hidden state
 
 ## LSTM(Long Short Term Memory)
------
 
 ### architecture
 
@@ -297,7 +308,6 @@ new memory $$\tilde{C_t} = tanh(W_C [h_{t-1},x_t]) + b_C)$$
 输出(hidden state)$$h_t = o_t * tanh(C_t)$$
 
 ## text translate(Seq2Seq)
------
 
 ![](./assets/neural_networks/seq2seq.jpg)
 
