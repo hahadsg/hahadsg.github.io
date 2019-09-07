@@ -1,3 +1,8 @@
 # mac
 .DS_Store
 
+# page theme
+_site
+.sass-cache
+Gemfile.lock
+*.gem
