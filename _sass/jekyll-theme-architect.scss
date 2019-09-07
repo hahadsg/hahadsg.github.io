@@ -2,6 +2,11 @@
 @import "rouge-github";
 @import url('https://fonts.googleapis.com/css?family=Architects+Daughter');
 
+$serif: Georgia, Times, serif !default;
+$sans-serif: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI",
+  "Helvetica Neue", "Lucida Grande", Arial, sans-serif !default;
+$header-font-family: $sans-serif !default;
+
 /* LAYOUT STYLES */
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, serif;
@@ -26,12 +31,13 @@ a:hover {
 header {
   padding-top: 40px;
   padding-bottom: 40px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: $header-font-family;
   background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
   border-bottom: solid 1px #275da1;
 }
 
 header h1 {
+  font-family: $header-font-family;
   width: 540px;
   margin-top: 0;
   margin-bottom: 0.2em;
@@ -43,6 +49,7 @@ header h1 {
 }
 
 header h2 {
+  font-family: $header-font-family;
   width: 540px;
   margin-top: 0;
   margin-bottom: 0;
@@ -130,7 +137,6 @@ code, pre {
 
 code {
   padding: 0 3px;
-  background-color: #f2f8fc;
   border: solid 1px #dbe7f3;
 }
 
@@ -144,7 +150,6 @@ pre {
 pre code {
   padding: 0;
   color: #2879d0;
-  background-color: #fff;
   border: none;
 }
 
@@ -190,7 +195,7 @@ form {
 #main-content h1 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: $header-font-family;
   font-size: 2.8em;
   font-weight: normal;
   color: #474747;
@@ -207,7 +212,7 @@ form {
 
 #main-content h2 {
   margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: $header-font-family;
   font-size: 22px;
   font-weight: bold;
   color: #474747;
@@ -223,7 +228,7 @@ form {
 #main-content h3 {
   margin-top: 24px;
   margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: $header-font-family;
   font-size: 18px;
   font-weight: bold;
   color: #474747;
@@ -239,7 +244,7 @@ form {
 
 #main-content h4 {
   margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: $header-font-family;
   font-size: 15px;
   font-weight: bold;
   color: #474747;
@@ -255,7 +260,7 @@ h4:before {
 
 #main-content h5 {
   margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: $header-font-family;
   font-size: 14px;
   color: #474747;
   text-indent: 3px;
@@ -269,7 +274,7 @@ h5:before {
 
 #main-content h6 {
   margin-bottom: 8px;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-family: $header-font-family;
   font-size: .8em;
   color: #474747;
   text-indent: 3px;
