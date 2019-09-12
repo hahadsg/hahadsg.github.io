@@ -30,7 +30,11 @@ wide dependences: A->B，需要使用多个partitions，也就是说需要shuffl
 
 优先级：代码显示调用set；spark-submit传参；配置文件；系统默认值
 
-```
+```scala
+// print all config
+spark.sparkContext.getConf.getAll.foreach(println)
+
+// set config by sql
 spark.sql("set spark.sql.shuffle.partitions=200") // 设置sql发生shuffle后形成多少partitions
 ```
 
