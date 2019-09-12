@@ -51,7 +51,6 @@ $$
 | code | symbols |
 | ---- | ------- |
 | `\alpha` | $$\alpha$$ |
-| `\alpha` | $$\alpha$$ |
 | `\beta` | $$\beta$$ |
 | `\gamma` | $$\gamma$$ |
 | `\delta` | $$\delta$$ |
@@ -73,7 +72,6 @@ $$
 | `\Lambda` | $$\Lambda$$ |
 | `\Xi` | $$\Xi$$ |
 | `\Pi` | $$\Pi$$ |
-| `\o` | $$\o$$ |
 | `\pi` | $$\pi$$ |
 | `\varpi` | $$\varpi$$ |
 | `\rho` | $$\rho$$ |
@@ -96,6 +94,7 @@ $$
 ### 数学常用符号
 
 微分算符：`\nabla`，$$\nabla$$
+逐元素乘（Hadamard product）：`\circ`，$$\circ$$
 
 ### hat
 
