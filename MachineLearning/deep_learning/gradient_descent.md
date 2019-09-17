@@ -62,7 +62,7 @@ $$
 
 ![](./assets/gradient_descent/test_momentum.png)
 
-## Nesterov accelerated gradient(NAG)
+## NAG(Nesterov accelerated gradient)
 
 从上面momentum的效果可以看出，因为惯性的原因，球会跑过头，NAG就是为了解决这个问题。NAG想要得到一个更聪明的球，当再次上坡时减速。NAG的公式：
 
@@ -135,3 +135,57 @@ $$
 ![](./assets/gradient_descent/test_adadelta.png)
 
 虽然理论上Adadelta不需要调学习率，但收敛情况受$$\epsilon$$的影响很大，所以个人感觉相当于从调学习率变成了调$$\epsilon$$
+
+## RMSprop
+
+RMSprop跟Adadelta几乎同时被提出，RMSprop也是解决Adagrad学习率衰减的问题，公式为：
+
+$$
+\begin{align}
+E\left[ g^2 \right]_t &= \gamma E\left[ g^2 \right]_{t-1} + (1-\gamma)g_t^2 \\
+\theta_{t+1}& = \theta_{t} - \frac{\eta}{\sqrt{E\left[ g^2 \right]_t + \epsilon}} g_t \\
+\end{align}
+$$
+
+RMSprop跟没替换学习率之前的公式实际是一致的
+
+$$\gamma$$通常为0.9，$$\eta$$通常为0.001
+
+测试效果如下：
+
+![](./assets/gradient_descent/test_RMSprop.png)
+
+## Adam(Adaptive Moment Estimation)
+
+Adam结合了momentum和RMSprop的特性，每次先计算：
+
+$$
+\begin{align}
+m_t &= \beta_1 m_{t-1} + (1-\beta_1)g_t \\
+v_t &= \beta_2 v_{t-1} + (1-\beta_2)g_t^2 \\
+\end{align}
+$$
+
+然后，因为$$m_t$$和$$v_t$$在初始的时候是0，所以在最初的几轮值会偏小，所以需要$$\beta_1$$和$$\beta_2$$对其进行修正，修正的公式为：
+
+$$
+\begin{align}
+\hat{m}_t &= \frac{m_t}{1-\beta_1^t} \\
+\hat{v}_t &= \frac{v_t}{1-\beta_2^t} \\
+\end{align}
+$$
+
+最初的几轮，分母会比1小，这样就会把分子调大（即进行了修正）。到后面，分母接近于1，这时分子的值几乎不会变了，也就是到会面不进行修正
+
+最终梯度更新的公式为：
+
+$$\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t}+\epsilon} \hat{m}_t$$
+
+通常$$\beta_1=0.9, \beta_2=0.999, \epsilon=10^{-8}$$
+
+测试效果如下：
+
+![](./assets/gradient_descent/test_adam.png)
+
+我这里特意调大了学习率，所以曲线看起来很妖，我们从中可以看到ada系列的梯度下降，会让每个维度尺度一致，也就是方向会往中间（而不用ada的时候像上面momentum的图一样，会跟随数值大的维度的梯度走）；momentum系列会让梯度在震荡时候趋于稳定（震荡越来越小）
+
