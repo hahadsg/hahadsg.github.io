@@ -77,7 +77,7 @@ NAG可以理解为提前预估参数的下个位置大概在哪里，预估的�
 
 测试效果如下：
 
-![](./assets/gradient_descent/test_momentum.png)
+![](./assets/gradient_descent/test_NAG.png)
 
 ## Adagrad
 
@@ -98,4 +98,40 @@ $$
 
 ![](./assets/gradient_descent/test_adagrad_lrx10.png)
 
+## Adadelta
 
+Adagrad是保留所有梯度的平方和，这样会使分母单调变大（也就是学习率会一直衰减），而Adadelta使用了指数移动平均：
+
+$$E\left[ g^2 \right]_t = \gamma E\left[ g^2 \right]_{t-1} + (1-\gamma)g_t^2$$
+
+所以，参数的变化为：
+
+$$\Delta\theta_t = - \frac{\eta}{\sqrt{E\left[ g^2 \right]_t + \epsilon}} \circ g_t$$
+
+分母就是root mean squared（RMS），所以直接将分母换掉：
+
+$$\Delta\theta_t = - \frac{\eta}{RMS\left[ g \right]_t} \circ g_t$$
+
+然后Adadelta为了解决单元不匹配的问题（这个细节等看了原文再补充），做了以下改进
+
+$$
+\begin{align}
+&E\left[\Delta\theta^2\right]_t = \gamma E\left[\Delta\theta^2\right]_{t-1} + (1-\gamma)\Delta\theta^2_t \\
+&RMS\left[\Delta\theta\right]_t = \sqrt{E\left[\Delta\theta^2\right]_t + \epsilon} \\
+\end{align}
+$$
+
+然后替换学习率，这样就消除了学习率，不需要调这个超参了。由于在$$t$$的时候不知道$$RMS\left[\Delta\theta\right]_t$$，所以使用$$RMS\left[\Delta\theta\right]_{t-1}$$，最终公式为：
+
+$$
+\begin{align}
+&\Delta\theta_t = -\frac{RMS\left[\Delta\theta\right]_{t-1}}{RMS\left[g\right]_t} g_t \\
+&\theta_{t+1} = \theta_t + \Delta\theta_t \\
+\end{align}
+$$
+
+测试效果如下：
+
+![](./assets/gradient_descent/test_adadelta.png)
+
+虽然理论上Adadelta不需要调学习率，但收敛情况受$$\epsilon$$的影响很大，所以个人感觉相当于从调学习率变成了调$$\epsilon$$
