@@ -165,3 +165,19 @@ git reset --hard [commit]
 !**/reserve/**
 
 ```
+
+# clean
+
+```bash
+# show clean files(untracked files)
+git clean -n
+# remove untracked files
+git clean -f
+
+# remove dir
+git clean -f -d
+# remove ignored files
+git clean -f -X
+# remove ignored and non-ignored files
+git clean -f -x
+```
