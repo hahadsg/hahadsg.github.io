@@ -7,6 +7,7 @@ title: 计算广告
 * [FM(Factorization Machine)](./CTR/FM.md)
 * [DeepFM](./CTR/DeepFM.md)
 * [DCN(Deep & Cross Network)](./CTR/DCN.md)
+* [xDeepFM](./CTR/xDeepFM.md)
 
 # 其他
 
