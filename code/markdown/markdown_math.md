@@ -94,7 +94,10 @@ $$
 ### 数学常用符号
 
 微分算符：`\nabla`，$$\nabla$$
+
 逐元素乘（Hadamard product）：`\circ`，$$\circ$$
+
+求最小值：`\mathop{\arg\min}_{\theta} f(\theta)`，$$\mathop{\arg\min}_{\theta} f(\theta)$$
 
 ### hat
 

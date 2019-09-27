@@ -8,6 +8,7 @@ title: 计算广告
 * [DeepFM](./CTR/DeepFM.md)
 * [DCN(Deep & Cross Network)](./CTR/DCN.md)
 * [xDeepFM](./CTR/xDeepFM.md)
+* [MLR / LS-PLM](./CTR/MLR.md)
 
 # 其他
 
