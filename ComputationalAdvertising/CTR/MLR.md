@@ -8,7 +8,7 @@ update_date: 2019-09-07
 
 MLR (mixed Logistic Regression)，又叫LS-PLM (Large Scale Piecewise Linear Model)
 
-MLR主要是为了解决LR无法很好的拟合非线性可分数据而被提出的，从2012年还是就在阿里开始使用
+MLR主要是为了解决LR无法很好的拟合非线性可分数据而被提出的，从2012年开始就在阿里开始使用
 
 MLR和普通的LR的对比效果如下：
 
@@ -17,13 +17,13 @@ MLR和普通的LR的对比效果如下：
 
 ## MLR公式
 
-MLR使用了分而治之的思路，划分了m个区域，然后每个区域中都进行LR，这里的m个区域数量是自己设置的，区域的范围相当于隐变量，也是要求解的
+MLR使用了分而治之的思路，划分了m个区域，然后每个区域中都进行LR，这里的m个区域数量是自己设置的，区域的范围相当于隐变量，是要求解的
 
 这个思路的公式化的表达为：
 
 $$p\left( y=1 \mid x \right) = g\left( \sum\limits^m_{j=1} \sigma(u^T_jx) \eta(w^T_jx) \right)$$
 
-$$\sigma(\cdot)$$是划分函数，对于一个样本$$x$$被分到每个区域的概率，$$\eta(\cdot)$$是拟合函数，就是在每个区域中为正样本的概率。$$g(\cdot)$$使模型满足概率函数。
+$$\sigma(\cdot)$$是划分函数，对于一个样本$$x$$被分到每个区域的概率；$$\eta(\cdot)$$是拟合函数，就是在每个区域中为正样本的概率；$$g(\cdot)$$使模型满足概率函数
 
 特别的，让$$\sigma(\cdot)$$为softmax，让$$\eta(\cdot)$$为sigmoid，$$g(x)=x$$，则概率公式为：
 
@@ -46,6 +46,5 @@ $$
 
 # 参考
 
-[Learning Piece-wise Linear Models from Large Scale Data for Ad Click Prediction
-Kun](https://arxiv.org/pdf/1704.05194.pdf)
+[Learning Piece-wise Linear Models from Large Scale Data for Ad Click Prediction](https://arxiv.org/pdf/1704.05194.pdf)
 
