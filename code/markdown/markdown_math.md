@@ -36,7 +36,13 @@ $$
 
 ### 逻辑运算
 
+大于：`\gt`，如$$a \gt b$$
+
+小于：`\lt`，如$$a \lt b$$
+
 大于等于：`\geq`，如$$a \geq b$$
+
+小于等于：`\leq`，如$$a \leq b$$
 
 ### 集合运算
 
@@ -46,11 +52,84 @@ $$
 
 实数集合：`\mathbb{N}`，如$$\mathbb{R}$$
 
+### greek letters
+
+| code | symbols |
+| ---- | ------- |
+| `\alpha` | $$\alpha$$ |
+| `\beta` | $$\beta$$ |
+| `\gamma` | $$\gamma$$ |
+| `\delta` | $$\delta$$ |
+| `\epsilon` | $$\epsilon$$ |
+| `\varepsilon` | $$\varepsilon$$ |
+| `\zeta` | $$\zeta$$ |
+| `\eta` | $$\eta$$ |
+| `\Gamma` | $$\Gamma$$ |
+| `\Delta` | $$\Delta$$ |
+| `\Theta` | $$\Theta$$ |
+| `\theta` | $$\theta$$ |
+| `\vartheta` | $$\vartheta$$ |
+| `\iota` | $$\iota$$ |
+| `\kappa` | $$\kappa$$ |
+| `\lambda` | $$\lambda$$ |
+| `\mu` | $$\mu$$ |
+| `\nu` | $$\nu$$ |
+| `\xi` | $$\xi$$ |
+| `\Lambda` | $$\Lambda$$ |
+| `\Xi` | $$\Xi$$ |
+| `\Pi` | $$\Pi$$ |
+| `\pi` | $$\pi$$ |
+| `\varpi` | $$\varpi$$ |
+| `\rho` | $$\rho$$ |
+| `\varrho` | $$\varrho$$ |
+| `\sigma` | $$\sigma$$ |
+| `\varsigma` | $$\varsigma$$ |
+| `\tau` | $$\tau$$ |
+| `\Sigma` | $$\Sigma$$ |
+| `\Upsilon` | $$\Upsilon$$ |
+| `\Phi` | $$\Phi$$ |
+| `\upsilon` | $$\upsilon$$ |
+| `\phi` | $$\phi$$ |
+| `\varphi` | $$\varphi$$ |
+| `\chi` | $$\chi$$ |
+| `\psi` | $$\psi$$ |
+| `\omega` | $$\omega$$ |
+| `\Psi` | $$\Psi$$ |
+| `\Omega` | $$\Omega$$ |
+
+### 数学常用符号
+
+微分算符：`\nabla`，$$\nabla$$
+
+逐元素乘（Hadamard product）：`\circ`，$$\circ$$
+
+求最小值：`\mathop{\arg\min}_{\theta} f(\theta)`，$$\mathop{\arg\min}_{\theta} f(\theta)$$
+
 ### hat
 
 帽：`\hat`，如$$\hat{x}$$
 
 波浪线：`\tilde`，如$$\tilde{x}$$
+
+### 数学公式大括号
+
+```markdown
+$$
+f(s) = 
+\begin{cases}
+s &if\ s \gt 0 \\
+\alpha s &if\ s \leq 0 \\
+\end{cases}
+$$
+```
+
+$$
+f(s) = 
+\begin{cases}
+s &if\ s \gt 0 \\
+\alpha s &if\ s \leq 0 \\
+\end{cases}
+$$
 
 # 更好的写公式
 

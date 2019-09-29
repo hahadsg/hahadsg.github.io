@@ -23,3 +23,15 @@ val featureAttrs = AttributeGroup.fromStructField(schema("features")).attributes
 val features = featureAttrs.map(_.name.get)
 
 ```
+
+## 强制设置模型参数
+
+如果想使用LR的参数直接生成一个model，可以先new一个LogisticRegressionModel，然后再强制set他的参数
+
+```scala
+// create model with coeff
+val lrModel = new LogisticRegressionModel(uid, coefficientMatrix, interceptVector, numClasses, isMultinomial)
+// set param
+lrModel.set(lrModel.regParam, 0.1)
+```
+

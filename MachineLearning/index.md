@@ -7,6 +7,7 @@ title: 机器学习
 * [Neural Networks](neural-networks.md)
 * [Face Recognition](face-recognition.md)
 * [Deep Learning Problem](deep-learning-problem.md)
+* [Gradient Descent](./deep_learning/gradient_descent.md)
 
 # 机器学习
 

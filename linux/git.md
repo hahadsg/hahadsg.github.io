@@ -84,6 +84,8 @@ git config --global color.interactive auto
 
 # 保存credential 不用重复输入账号密码
 git config --global credential.helper store
+# 如果有多个git账号对应不同的仓库
+git config --global credential.useHttpPath true
 ```
 
 * set url
@@ -162,4 +164,20 @@ git reset --hard [commit]
 
 !**/reserve/**
 
+```
+
+# clean
+
+```bash
+# show clean files(untracked files)
+git clean -n
+# remove untracked files
+git clean -f
+
+# remove dir
+git clean -f -d
+# remove ignored files
+git clean -f -X
+# remove ignored and non-ignored files
+git clean -f -x
 ```

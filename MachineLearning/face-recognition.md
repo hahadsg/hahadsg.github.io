@@ -16,13 +16,7 @@
 
 https://www.learnopencv.com/histogram-of-oriented-gradients/
 
-# deep learning
-
-* summary
-
-https://blog.csdn.net/guleileo/article/details/80863579
-
-# Loss Functions
+# DeepLearning Loss Functions
 
 ## Triplet Loss (FaceNet)
 
