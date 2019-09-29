@@ -36,7 +36,13 @@ $$
 
 ### 逻辑运算
 
+大于：`\gt`，如$$a \gt b$$
+
+小于：`\lt`，如$$a \lt b$$
+
 大于等于：`\geq`，如$$a \geq b$$
+
+小于等于：`\leq`，如$$a \leq b$$
 
 ### 集合运算
 
@@ -104,6 +110,26 @@ $$
 帽：`\hat`，如$$\hat{x}$$
 
 波浪线：`\tilde`，如$$\tilde{x}$$
+
+### 数学公式大括号
+
+```markdown
+$$
+f(s) = 
+\begin{cases}
+s &if\ s \gt 0 \\
+\alpha s &if\ s \leq 0 \\
+\end{cases}
+$$
+```
+
+$$
+f(s) = 
+\begin{cases}
+s &if\ s \gt 0 \\
+\alpha s &if\ s \leq 0 \\
+\end{cases}
+$$
 
 # 更好的写公式
 

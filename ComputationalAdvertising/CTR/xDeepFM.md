@@ -52,11 +52,6 @@ CIN参数量为：$$\sum^T_{k=1} H_k \times (1 + H_{k-1} \times m)$$
 
 最左边是Linear部分，中间是CIN部分，最右边是DNN部分，其他的分布跟DCN一样，变化的地方就是CIN
 
-
-
-
-
-
 # 参考
 
 [xDeepFM: Combining Explicit and Implicit Feature Interactions for Recommender Systems](https://arxiv.org/pdf/1803.05170.pdf)
