@@ -13,7 +13,6 @@ title: 计算广告
 
 # 其他
 
-[DSP paper](https://github.com/wnzhang/rtb-papers/)
-
-[数据集](./Other/datasets.md)
+* [DSP paper](https://github.com/wnzhang/rtb-papers/)
+* [数据集](./Other/datasets.md)
 
