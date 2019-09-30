@@ -1,7 +1,7 @@
 ---
 title: DIN
 date: 2019-09-29
-update_date: 2019-09-29
+update_date: 2019-09-20
 ---
 
 # DIN (Deep Interest Network)
@@ -34,7 +34,7 @@ DIN (Deep Interest Network)是阿里应用于电商的点击率预估算法，�
 
 
 CIN是将两个向量做外积并铺平，然后跟两个向量一起进行concat后再接全连接层，这里全连接层的激活函数使用了Dice（下面具体介绍），我感觉借鉴了FM和PNN
-的思想。从Activation Unit出来以后每个用户行为向量就都得到了一个权重，跟原始向量加权求和，这里跟Attention的思路很像。
+的思想。从Activation Unit出来以后每个用户行为向量就都得到了一个权重，跟原始向量加权求和，这里跟Attention的思路很像，接下来要点击的广告去attention历史点击记录。
 
 论文中也提到了，他们也尝试使用了LSTM的结构去放在用户历史行为轨迹上，但是效果一般，猜测可能是因为人的兴趣变化太快（起意和兴趣消失很快），对于序列的数据来说是一种噪音
 
