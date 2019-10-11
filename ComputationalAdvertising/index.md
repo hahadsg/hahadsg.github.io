@@ -5,6 +5,7 @@ title: 计算广告
 # CTR
 
 * [FM (Factorization Machine)](./CTR/FM.md)
+* [FM实现采坑记录](./CTR/FM_impl.md)
 * [DeepFM](./CTR/DeepFM.md)
 * [DCN (Deep & Cross Network)](./CTR/DCN.md)
 * [xDeepFM](./CTR/xDeepFM.md)
