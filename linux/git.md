@@ -9,7 +9,9 @@ https://git-scm.com/book/en/v2
 git add log/\*.log
 ```
 
-# branch
+# 常用命令
+
+## branch
 
 * new branch
 
@@ -26,7 +28,7 @@ git branch -d <branch>
 git push origin :<branch>
 ```
 
-# tag
+## tag
 
 * add tag
 
@@ -57,7 +59,7 @@ git tag --sort=taggerdate -n
 git config tag.sort taggerdate
 ```
 
-# config
+## config
 
 ```
 # 显示所有配置
@@ -95,7 +97,7 @@ git remote set-url origin https://...
 git remote set-url --push origin https://...
 ```
 
-# diff
+## diff
 
 ```
 # This command compares your staged changes to your last commit
@@ -105,7 +107,7 @@ git diff --staged
 git diff --stat [commit]
 ```
 
-# log
+## log
 
 ```
 # 显示diff
@@ -128,7 +130,7 @@ git log --decorate
 git config log.decorate auto
 ```
 
-# HEAD
+## HEAD
 
 `HEAD`相当于指针，指向当前commit
 `HEAD^`表示上一个commit
@@ -136,7 +138,7 @@ git config log.decorate auto
 `HEAD~100`表示往前推100个commit
 `HEAD^`与`HEAD~1`等价
 
-# commit
+## commit
 
 * 漏掉一些文件没commit
 
@@ -146,14 +148,14 @@ git add [forgotten_file]
 git commit --amend
 ```
 
-# reset
+## reset
 
 ```
 # 回退到某个commit
 git reset --hard [commit]
 ```
 
-# gitignore
+## gitignore
 
 * 忽略数据文件，除非在制定文件夹中
 
@@ -166,7 +168,7 @@ git reset --hard [commit]
 
 ```
 
-# clean
+## clean
 
 ```bash
 # show clean files(untracked files)
@@ -181,3 +183,44 @@ git clean -f -X
 # remove ignored and non-ignored files
 git clean -f -x
 ```
+
+# 专题
+
+## 清理所有git历史
+
+Checkout
+
+```sh
+git checkout --orphan latest_branch
+```
+
+Add all the files
+
+```sh
+git add -A
+```
+
+Commit the changes
+
+```sh
+git commit -am "commit message"
+```
+
+Delete the branch
+
+```sh
+git branch -D master
+```
+
+Rename the current branch to master
+
+```sh
+git branch -m master
+```
+
+Finally, force update your repository
+
+```sh
+git push -f origin master
+```
+
