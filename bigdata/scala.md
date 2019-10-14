@@ -21,3 +21,17 @@ https://docs.scala-lang.org/getting-started-sbt-track/getting-started-with-scala
   // 持续run（只要文件修改就run）
   ~run
   ```
+
+## 技巧
+
+### argmax
+
+```scala
+scala> List(3,5,2,8).view.zipWithIndex.maxBy(_._1)._2
+res1: Int = 3
+
+scala> List(3,5,2,8).view.zipWithIndex.maxBy(_._1)
+res2: (Int, Int) = (8,3)
+```
+
+
