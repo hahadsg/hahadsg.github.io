@@ -105,6 +105,8 @@ $$
 
 求最小值：`\mathop{\arg\min}_{\theta} f(\theta)`，$$\mathop{\arg\min}_{\theta} f(\theta)$$
 
+内积：`\langle x, y \rangle`，$$\langle x, y \rangle$$
+
 ### hat
 
 | code | symbols |
