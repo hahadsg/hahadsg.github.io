@@ -1,7 +1,7 @@
 ---
 title: DCN
 date: 2019-09-07
-update_date: 2019-09-07
+update_date: 2019-11-12
 ---
 
 # DCN (Deep & Cross Network)
@@ -23,6 +23,10 @@ update_date: 2019-09-07
 $$x_0 = \left[ x^T_{embed, 1},...,x^T_{embed, k},x^T_{dense} \right]$$
 
 这里的$$k$$是稀疏特征的数量，注意最后有一个稠密特征的$$X$$
+
+然后，上面提到的embedding实际会乘上特征的值后放入$$x_0$$，即：
+
+$$x_{embed,i} = W_{embed,i}x_i$$
 
 ### Cross Network
 
