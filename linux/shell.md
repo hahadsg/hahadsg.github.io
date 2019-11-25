@@ -115,3 +115,18 @@ p="./foo/bar/f.txt"
 echo `dirname $p` # -> ./foo/bar
 echo `basename $p` # -> f.txt
 ```
+
+## Topic
+
+### loop date range
+
+```bash
+sdate=20190101
+edate=20190110
+
+idate="$sdate"
+while [[ ! "$idate" > "$edate" ]]; do
+  echo $idate
+  idate=$(date -d "$idate +1 day" +%Y%m%d)
+done
+```
