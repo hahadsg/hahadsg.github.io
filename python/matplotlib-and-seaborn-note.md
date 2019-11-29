@@ -18,5 +18,34 @@ import seaborn as sns
 sns.set_style({'font.sans-serif':['simhei','Arial']})
 ```
 
+## demo
+
+* 将图片集画出nrows * ncols的fig
+
+```
+nplt = 21
+ncols = 4
+nrows = (nplt + ncols - 1) // ncols
+
+fig, ax = plt.subplots(nrows, ncols, figsize=(27, nrows*4), dpi=150)
+
+i = 0
+for img_info in img_list:
+    img_path = img_info['img_path']
+    if not os.path.exists(img_path):
+        continue
+    img = misc.imread(icon_path)
+    if not img.shape:
+        continue
+
+    row = i // ncols
+    col = i % ncols
+    ax[row][col].imshow(img)
+    ax[row][col].set_title(img_info['title'], fontsize=15)
+
+    i += 1
+    if i >= nplt:
+        break
+```
 
 
