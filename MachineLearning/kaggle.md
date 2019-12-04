@@ -1,7 +1,7 @@
 ## 预处理
 -----
 
-### numerical features
+### numerical features
 
 * 归一化
 
@@ -250,7 +250,7 @@
 
   * 高维特征联结
 
-    使用多个特征进行联结，列出所有情况就不太现实了，这个时候可以考虑使用决策树
+    使用多个特征进行联结，列出所有情况就不太现实了，这个时候可以考虑使用决策树
   
     ![](./assets/kaggle/extract_feature_from_DT.jpg)
     
@@ -314,7 +314,7 @@ http://scikit-learn.org/stable/modules/cross_validation.html
 
 http://www.chioka.in/how-to-select-your-final-models-in-a-kaggle-competitio/
 
-## hyper-parameters tuning
+## hyper-parameters tuning
 -----
 
 http://scikit-learn.org/stable/modules/grid_search.html
