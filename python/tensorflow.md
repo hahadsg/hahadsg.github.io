@@ -40,3 +40,13 @@ params = tf.profiler.profile(sess.graph, run_meta=run_meta, cmd='op', options=op
 flops.total_float_ops
 params.total_parameters
 ```
+
+## demo
+
+### show cpu or gpu
+
+```shell
+import tensorflow as tf; sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+```
+
+如果显示CPU的信息，就是CPU版本
