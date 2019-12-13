@@ -1,6 +1,4 @@
-## BatchNorm 的坑
-
-https://blog.csdn.net/qq_25737169/article/details/79616671
+## demo
 
 ### mini-batch 实现
 
@@ -41,8 +39,6 @@ flops.total_float_ops
 params.total_parameters
 ```
 
-## demo
-
 ### show cpu or gpu
 
 ```shell
@@ -50,3 +46,28 @@ import tensorflow as tf; sess = tf.Session(config=tf.ConfigProto(log_device_plac
 ```
 
 如果显示CPU的信息，就是CPU版本
+
+### custom metrics
+
+```python
+tf.metrics.mean(tf.losses.softmax_cross_entropy(multi_class_labels, logits, loss_collection=None))
+```
+
+### multi-one-hot
+
+```python
+# some sparse features, from raw maker_id to index
+maker_id_list = [1, 3, 9, 14, 2]
+one_hot_enc = tf.one_hot(indices=maker_id_list, depth=16)
+with tf.Session() as sess:
+    feature_list = tf.reduce_sum(one_hot_enc, reduction_indices=0)
+    print(sess.run(feature_list))
+```
+
+
+## 坑
+
+### BatchNorm 的坑
+
+https://blog.csdn.net/qq_25737169/article/details/79616671
+

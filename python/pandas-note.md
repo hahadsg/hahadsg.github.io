@@ -31,7 +31,9 @@ df[target_column].apply(lambda x: x.split('，')) \
     .join(df)
 ```
 
-## write to excel multi-sheet
+## read/write
+
+### write to excel multi-sheet
 
 ```python
 df1 = pd.DataFrame({'Data': [11, 12, 13, 14]})
