@@ -35,5 +35,25 @@ sudo yum -y install kmod-nvidia
 
 # 重启
 sudo reboot
+
+# 安装CUDA9.0（注意tensorflow1.x都是用CUDA9.0）
+sudo yum remove "cuda*"
+wget https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-repo-rhel7-9.0.176-1.x86_64.rpm
+sudo yum install cuda-9-0
+
+# 安装cuDNN7.+
+# 到这里链接下载CUDA9.0对应的cuDNN（对于centos三个lib都下载）
+# https://developer.nvidia.com/rdp/cudnn-archive
+sudo rpm -ivh libcudnn7-7.6.4.38-1.cuda9.0.x86_64.rpm
+sudo rpm -ivh libcudnn7-devel-7.6.4.38-1.cuda9.0.x86_64.rpm
+sudo rpm -ivh libcudnn7-doc-7.6.4.38-1.cuda9.0.x86_64.rpm
+```
+
+### 查询命令
+
+* 显示nvidia情况
+
+```bash
+nvidia-smi
 ```
 
