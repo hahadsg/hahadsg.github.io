@@ -1,5 +1,13 @@
 # argparse
 
+```python
+import parser
+
+parser = argparse.ArgumentParser
+parser.add_argument('-p', '--path', type=str, default='./test/3.png', help="ocr image path")
+args = parser.parse_args()
+```
+
 https://www.jianshu.com/p/fef2d215b91d
 
 # getopt

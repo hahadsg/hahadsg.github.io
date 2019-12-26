@@ -39,6 +39,7 @@ sudo reboot
 # 安装CUDA9.0（注意tensorflow1.x都是用CUDA9.0）
 sudo yum remove "cuda*"
 wget https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-repo-rhel7-9.0.176-1.x86_64.rpm
+sudo rpm -i cuda-repo-rhel7-9.0.176-1.x86_64.rpm
 sudo yum install cuda-9-0
 
 # 安装cuDNN7.+
@@ -47,6 +48,9 @@ sudo yum install cuda-9-0
 sudo rpm -ivh libcudnn7-7.6.4.38-1.cuda9.0.x86_64.rpm
 sudo rpm -ivh libcudnn7-devel-7.6.4.38-1.cuda9.0.x86_64.rpm
 sudo rpm -ivh libcudnn7-doc-7.6.4.38-1.cuda9.0.x86_64.rpm
+
+# 重启
+sudo reboot
 ```
 
 ### 查询命令
