@@ -22,6 +22,12 @@ title: 计算广告
 
 * [CTR calibration (CTR校准)](./CTR/CTR_calibration.md)
 
+### Recommendation
+
+推荐跟广告有很多类似的地方，一些推荐的思路可能可以借鉴
+
+* [YouTube](./Recommendation/YouTube.md)
+
 ## 其他
 
 * [DSP paper](https://github.com/wnzhang/rtb-papers/)
