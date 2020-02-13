@@ -6,7 +6,7 @@ update_date: 2020-02-13
 
 # Transformer
 
-Transformer可以用作翻译，它很像Seq2Seq，给定一个句子，然后输出该句子的翻译，所以它也是有Encoder和Decoder部分，Encoder负责提取待翻译句子的特征，然后将特征传递给Decoder进行翻译。（这只是给了一个直观感觉，Transormer是干嘛用的）
+Transformer可以用作翻译，它很像Seq2Seq，给定一个句子，然后输出该句子的翻译，所以它也是有Encoder和Decoder部分，Encoder负责提取待翻译句子的特征，然后将特征传递给Decoder进行翻译，输出是生成式的，也就是一个一个词输出直到终止词出现。
 
 论文首先吐槽了RNN并行计算困难的缺点，RNN计算时需要依赖前一个单元，也就是要顺序计算，这种情况并行是很困难的，虽然近几年提出了一些针对性的优化方案，但顺序计算对于计算的限制仍然是存在的。所以论文提出了使用attention的Transformer，它不需要顺序计算，更容易进行并行计算。
 
