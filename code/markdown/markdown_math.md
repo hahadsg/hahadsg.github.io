@@ -135,6 +135,14 @@ s &if\ s \gt 0 \\
 \end{cases}
 $$
 
+### 空格
+
+| code | symbols |
+| ---- | ------- |
+| `a\ b` | $$a\ b$$ |
+| `a\quad b` | $$a\quad b$$ |
+| `a\qquad b`| $$a\qquad b$$ |
+
 # 更好的写公式
 
 ## 竖线
