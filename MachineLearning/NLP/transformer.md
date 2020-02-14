@@ -1,7 +1,7 @@
 ---
 title: Transformer
 date: 2020-02-12
-update_date: 2020-02-13
+update_date: 2020-02-14
 ---
 
 # Transformer
@@ -126,6 +126,10 @@ $$
 Decoder是运作方式是生成式的，每次生成下一个词，直到生成了一个终止词（这就是为什么要mask的原因）。生成的方式就是一个多分类，所以可以看到Decoder的输出后面跟了softmax，生成的这个词也会作为下一个词的输入。
 
 <img src="./assets/transformer/Decoder_flow.jpg" alt="drawing" width="600"/>
+
+## 损失函数
+
+每次预测一个词时都是softmax，这时就可以做交叉熵损失了。但我还有一个疑问就是，比如期望输出的长度是x，而实际模型输出了y，那这种情况怎么做损失呢？
 
 
 # TODO
