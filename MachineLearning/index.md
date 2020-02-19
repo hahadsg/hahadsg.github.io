@@ -11,6 +11,7 @@ title: 机器学习
 
 # 自然语言处理 (NLP)
 
+* [ELMo](./NLP/ELMo.md)
 * [Transformer](./NLP/transformer.md)
 * [BERT](./NLP/BERT.md)
 

@@ -114,6 +114,9 @@ $$
 | `\hat{x}` | $$\hat{x}$$ |
 | `\tilde{x}` | $$\tilde{x}$$ |
 | `\bar{x}` | $$\bar{x}$$ |
+| `\vec{x}` | $$\vec{x}$$ |
+| `\overrightarrow{x}` | $$\overrightarrow{x}$$ |
+| `\overleftarrow{x}` | $$\overleftarrow{x}$$ |
 
 ### 数学公式大括号
 
