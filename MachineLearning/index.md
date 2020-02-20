@@ -13,6 +13,7 @@ title: 机器学习
 
 * [ELMo](./NLP/ELMo.md)
 * [Transformer](./NLP/transformer.md)
+* [GPT](./NLP/GPT.md)
 * [BERT](./NLP/BERT.md)
 
 # 机器学习
