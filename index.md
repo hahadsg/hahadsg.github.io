@@ -17,3 +17,5 @@ title: hahadsg's note
 # [databse](./database/SUMMARY.md)
 
 # [code](./code/index.md)
+
+# [stock](.test.md)
