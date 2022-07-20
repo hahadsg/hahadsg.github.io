@@ -1,6 +1,12 @@
+plugins:
+  - jekyll-mermaid
+
 theme: jekyll-theme-architect
 
 title: hahadsg's note
 description: ''
 
 highlighter: rouge
+
+mermaid:
+  src: '/assets/mermaid-8.9.2/mermaid.min.js'

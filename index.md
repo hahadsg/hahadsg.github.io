@@ -18,4 +18,4 @@ title: hahadsg's note
 
 # [code](./code/index.md)
 
-# [stock](./test.md)
+# [stock](./notebook/stock/index.md)
