@@ -16,6 +16,8 @@ bundle exec jekyll serve
 
 ## mermaid
 
+可使用markdown绘制思维导图、甘特图等
+
 [mermaid文档](https://mermaid-js.github.io/)
 
 gitpage安装mermaid[参考](https://github.com/svrooij/svrooij.github.io/commit/1deca4ed49674592256e61b480f8e3b2e794dd66#diff-a97461fa07cf302d473cb040035aca0322d9bbbde0e3c99ac39140094884f9a9)
