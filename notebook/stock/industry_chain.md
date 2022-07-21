@@ -1,6 +1,6 @@
 # 产业链思维导图
 
-```mermaid
+```mermaid!
 flowchart LR
     XinNengYuanChe[新能源车]-->LiKuang[锂矿]
     XinNengYuanChe[新能源车]-->ZhengJi[正极]
