@@ -8,6 +8,8 @@ description: ''
 
 highlighter: rouge
 
+repository: hahadsg/hahadsg.github.io
+
 jekyll-spaceship:
   # default enabled processors
   processors:
