@@ -1,7 +1,6 @@
 # 产业链思维导图
 
-{% raw %}
-{% mermaid %}
+```mermaid
 flowchart LR;
     XinNengYuanChe[新能源车]-->LiKuang[锂矿];
     XinNengYuanChe[新能源车]-->ZhengJi[正极];
@@ -13,5 +12,4 @@ flowchart LR;
     XinNengYuanChe[新能源车]-->ZhengChe[整车];
 
     LiKuang[锂矿]-->Stock002466[天齐锂业-002466];
-{% endmermaid %}
-{% endraw %}
+```
