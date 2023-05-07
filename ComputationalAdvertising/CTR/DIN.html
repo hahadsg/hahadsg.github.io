@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>DIN | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="DIN">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/ComputationalAdvertising/CTR/DIN.html">
+<meta property="og:url" content="https://hahadsg.github.io/ComputationalAdvertising/CTR/DIN.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2019-09-29T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="DIN">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2019-09-29T00:00:00+00:00","datePublished":"2019-09-29T00:00:00+00:00","headline":"DIN","mainEntityOfPage":{"@type":"WebPage","@id":"https://hahadsg.github.io/ComputationalAdvertising/CTR/DIN.html"},"url":"https://hahadsg.github.io/ComputationalAdvertising/CTR/DIN.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1 id="din-deep-interest-network">DIN (Deep Interest Network)</h1>
+
+<p>DIN (Deep Interest Network)是阿里应用于电商的点击率预估算法，主要思路是建立用户历史浏览记录和待展示广告间的联系，并提出一种基于mini-batch的正则方法和一种激活函数Dice</p>
+
+<h2 id="din结构">DIN结构</h2>
+
+<p>电商场景的的特征包括用户画像、用户行为、广告特征、上下文特征：</p>
+
+<p><img src="./assets/DIN/features.png" alt="drawing" width="600"></p>
+
+<p>其中，性别等特征是进行one-hot的，即所有性别可能性中，只会出现一个1，性别不可能是多值的，而用户的历史浏览记录可能是多值的，那么通常就进行multi-hot，如下图所示：</p>
+
+<p><img src="./assets/DIN/feature_engineering.png" alt="drawing" width="600"></p>
+
+<p>在大部分点击率算法中，会对multi-hot进行聚合（比如求平均），然后所有特征concat后进全连接层，这里对这一类算法统称为Embedding&amp;MLP，下图左边就是这一类算法：</p>
+
+<p><img src="./assets/DIN/DIN_Architecture.png" alt="drawing" width="1000"></p>
+
+<p>这类算法包括：LR、Wide&amp;Deep、PNN、DeepFM，这里需要注意的是虽然DeepFM使用的FM交叉项的设计，但是对于multi-hot特征还是会先进行聚合（也可以称作pooling）</p>
+
+<p>这样直接将multi-hot特征进行聚合会损失很多信息，DIN以这个为切入点做了优化设计。我们看到上图的右边，就是DIN的结构，它将每种用户行为都跟候选广告进行交叉计算（具体如何计算下面说），即图中的Activation Unit，通过了这个单元后，会出来一个权重，也就是说对于不同的候选广告，用户历史行为的权重不同，然后进行加权求和。这个在业务上也很说的通，比如一个女性经常看衣服，这时候展示衣服还是电子产品，两者的权重肯定是不同的。这种思路有点像NMT领域的Attention。其实我感觉，这个跟FM很像，只不过FM对所有特征都交叉（multi-hot特征聚合后成为一个embedding），而CIN就是先不对用户行为做聚合，而是先跟候选广告做一次交叉后再聚合。</p>
+
+<h2 id="cin-activation-unit">CIN Activation Unit</h2>
+
+<p>接下来看用户行为跟候选广告具体如何进行交叉并得到权重的</p>
+
+<p><img src="./assets/DIN/Activation_Unit.png" alt="drawing" width="400"></p>
+
+<p>CIN是将两个向量做外积并铺平，然后跟两个向量一起进行concat后再接全连接层，这里全连接层的激活函数使用了Dice（下面具体介绍），我感觉借鉴了FM和PNN
+的思想。从Activation Unit出来以后每个用户行为向量就都得到了一个权重，跟原始向量加权求和，这里跟Attention的思路很像，接下来要点击的广告去attention历史点击记录。</p>
+
+<p>论文中也提到了，他们也尝试使用了LSTM的结构去放在用户历史行为轨迹上，但是效果一般，猜测可能是因为人的兴趣变化太快（起意和兴趣消失很快），对于序列的数据来说是一种噪音</p>
+
+<h2 id="mini-batch-aware-regularization">Mini-batch Aware Regularization</h2>
+
+<p>很多特征的枚举值非常多，比如商品，可能会有上亿，再进行embedding后参数数量就会非常大，这样我们进行L2正则的时候，计算的代价难以接受</p>
+
+<p>正常的正则是计算每条记录的正则，在稀疏特征下只计算有值的参数的正则</p>
+
+<p>CIN提出使用mini-batch aware的正则，具体的做法就是对于一个batch，只要某个特征非0就计算他的正则</p>
+
+<p>他们的区别就是正常的正则会多次计算在一个batch中多次出现的参数，而CIN提出的方案是同一个参数只会计算一次，也就是聚合的级别从记录变成batch</p>
+
+<h2 id="dice">Dice</h2>
+
+<p>PReLU的公式为：</p>
+
+\[f(s) = 
+\begin{cases}
+s &amp;if\ s \gt 0 \\
+\alpha s &amp;if\ s \leq 0 \\
+\end{cases}\]
+
+<p>一般\(\alpha\)是比1小的值，PReLU如下图所示：</p>
+
+<p><img src="./assets/DIN/PReLU.png" alt="drawing" width="200"></p>
+
+<p>PReLU的公式也可以写作：</p>
+
+\[f(s) = p(s) \cdot s + (1-p(s)) \cdot \alpha s\]
+
+<p>这里\(p(s)=I(s\gt 0)\)，也就是下图的左边：</p>
+
+<p><img src="./assets/DIN/Dice.png" alt="drawing" width="400"></p>
+
+<p>而Dice的\(p(s)\)如上图右边所示，它的公式是：</p>
+
+\[p(s) = \frac{1}{1+e^{ -\frac{s-E[s]}{\sqrt{Var[s]+\epsilon}} }}\]
+
+<p>这里的\(E[s]\)和\(Var[s]\)是mini-batch内的均值和方差，它的思路就是使用均值和方差校准输入</p>
+
+<p>但这里我有一个疑惑，Dice实际上还是sigmoid的结构，那是不是仍然会出现sigmoid在两端梯度很小下降很慢的缺点？</p>
+
+<h1 id="参考">参考</h1>
+
+<p><a href="https://arxiv.org/pdf/1706.06978.pdf">Deep Interest Network for Click-Through Rate Prediction Guorui</a></p>
+
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>1、特征工程是什么 | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="1、特征工程是什么">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/MachineLearning/machine_learning/feature-engineering.html">
+<meta property="og:url" content="https://hahadsg.github.io/MachineLearning/machine_learning/feature-engineering.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="1、特征工程是什么">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"1、特征工程是什么","url":"https://hahadsg.github.io/MachineLearning/machine_learning/feature-engineering.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2 id="1特征工程是什么">1、特征工程是什么</h2>
+
+<p><img src="/MachineLearning/machine_learning/assets/feature_engineering/feature_engineering_frame.png" alt=""></p>
+
+<h2 id="2数据预处理">2、数据预处理</h2>
+
+<p>未经处理的特征，常见的有以下问题：</p>
+
+<ul>
+  <li>不属于同一量纲：可以利用无量纲化解决这一问题。</li>
+  <li>信息冗余：对于某些定量特性，比如学习成绩，如果只关心“及格”和“不及格”，则可以将定量的分数转化成0和1来表示“不及格”和“及格”。二值化可以解决这一问题。</li>
+  <li>定性特征不能直接使用：通常使用哑编码的方式将定性特征转化为定量特征。</li>
+  <li>存在缺失值：需要补充缺失值。</li>
+  <li>信息利用率低</li>
+</ul>
+
+<p>使用sklearn中的<strong>preprocessing库</strong>来进行数据预处理，可以覆盖以上问题的解决方案。</p>
+
+<h3 id="21无量纲化">2.1无量纲化</h3>
+
+<h4 id="211标准化">2.1.1标准化</h4>
+
+<p>标准化需要计算特征的均值和标准差，公式如下：</p>
+
+\[x' = \frac{x - \bar{X}}{S}\]
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">scale</span>
+<span class="n">StandardScaler</span><span class="p">().</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">scale</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="212区间缩放法">2.1.2区间缩放法</h4>
+
+<p>区间缩放法的思路有很多种，常用的一种为利用两个最值进行缩放，公式如下：</p>
+
+\[x' = \frac{x - Min}{Max - Min}\]
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span><span class="p">,</span> <span class="n">minmax_scale</span>
+<span class="n">MinMaxScale</span><span class="p">().</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">minmax_scale</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="213归一化">2.1.3归一化</h4>
+
+<p>标准化是依据特征矩阵的列处理数据，通过求z-score的方法，将样本的特征值转化到同一量纲下。归一化是依照特征矩阵的行处理数据，其目的在于样本向量 在点乘运算或其他核函数计算相似性时，拥有统一的标准，也就是都转化成“单位向量”。规则为l2的归一化公式如下：</p>
+
+\[x' = \frac{x}{\sqrt{\sum^m_jx[j]^2}}\]
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">Normalizer</span><span class="p">,</span> <span class="n">normalize</span>
+<span class="n">Normalizer</span><span class="p">().</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">normalize</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="22对定量特征二值化">2.2对定量特征二值化</h3>
+
+<p>定量特征二值化的核心需要定一个阈值，大于阈值的为1，小于等于阈值的为0，公式如下：</p>
+
+\[f(x)=\left\{
+\begin{aligned}
+1, x &gt; threshold \\
+0, x \leq threshold \\
+\end{aligned}
+\right.\]
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">Binarizer</span><span class="p">,</span> <span class="n">binarize</span>
+<span class="c1"># 二值化，阈值设置为3
+</span><span class="n">Binarizer</span><span class="p">(</span><span class="n">threshold</span> <span class="o">=</span> <span class="mi">3</span><span class="p">).</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">binarize</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="23对定性变量哑编码">2.3对定性变量哑编码</h3>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">OneHotEncoder</span>
+<span class="n">OneHotEncoder</span><span class="p">().</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<h3 id="24缺失值计算">2.4缺失值计算</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from numpy import vstack, array, nan
+from sklearn.preprocessing import Imputer
+# 参数missing_value为缺失值的表现形式，默认为NaN
+# 参数strategy为缺失值填充方式，默认为‘mean’，可选'mean', 'median', 'most_frequent'
+Imputer().fit_transform(vstack((array([nan, nan, nan, nan]), iris.data)))
+</code></pre></div></div>
+
+<h3 id="25数据变换">2.5数据变换</h3>
+
+<p>常见的数据变换有基于多项式的、基于指数函数的、基于对数函数的。</p>
+
+<ul>
+  <li>多项式转化：
+4个特征，度为2的多项式转化公式如下：</li>
+</ul>
+
+\[(x'_1,x'_2,x'_3,x'_4,x'_5,x'_6,x'_7,x'_8,x'_9,x'_{10},x'_{11},x'_{12},x'_{13},x'_{14},x'_{15}) \\
+= (1,x_1,x_2,x_3,x_4,x_1^2,x_1x_2,x_1x_3,x_1x_4,x_2^2,x_2x_3,x_2x_4,x_3^2,x_3x_4,x_4^2)\]
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">PolynomialFeatures</span>
+<span class="c1"># 参数degree为度，默认为2
+</span><span class="n">PolynomialFeatures</span><span class="p">().</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>基于单变元函数的数据变换</li>
+</ul>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">log1p</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">FunctionTransformer</span>
+<span class="c1"># 第一个参数func是单变元函数
+</span><span class="n">FunctionTransformer</span><span class="p">(</span><span class="n">log1p</span><span class="p">).</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="26汇总">2.6汇总</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">类</th>
+      <th style="text-align: left">功能</th>
+      <th style="text-align: left">说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">StandardScaler</td>
+      <td style="text-align: left">无量纲化</td>
+      <td style="text-align: left">标准化，基于特征矩阵的列，将特征值转换至服从标准正态分布</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MinMaxScaler</td>
+      <td style="text-align: left">无量纲化</td>
+      <td style="text-align: left">区间缩放，基于最大最小值，将特征值转换到[0, 1]区间上</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Normalizer</td>
+      <td style="text-align: left">归一化</td>
+      <td style="text-align: left">基于特征矩阵的行，将样本向量转换为“单位向量”</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Binarizer</td>
+      <td style="text-align: left">二值化</td>
+      <td style="text-align: left">基于给定阈值，将定量特征按阈值划分</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">OneHotEncoder</td>
+      <td style="text-align: left">哑编码</td>
+      <td style="text-align: left">将定性数据编码为定量数据</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Imputer</td>
+      <td style="text-align: left">缺失值计算</td>
+      <td style="text-align: left">计算缺失值，缺失值可填充为均值等</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">PolynomialFeatures</td>
+      <td style="text-align: left">多项式数据转换</td>
+      <td style="text-align: left">多项式数据转换</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">FunctionTransformer</td>
+      <td style="text-align: left">自定义单元数据转换</td>
+      <td style="text-align: left">使用单变元的函数来转换数据</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3特征选择">3、特征选择</h2>
+
+<p>数据预处理完以后，需要选择有意义的特征输入机器学习的算法和模型进行训练。通常从两个方面考虑：</p>
+
+<ul>
+  <li>特征是否发散：若一个特征的方差接近于0，则说明样本在这个特征上基本没有差异，这个特征对于样本的区分没有什么用。</li>
+  <li>特征与目标的相关性：与目标相关性高的特征，应当优先选择。</li>
+</ul>
+
+<p>特征选择的方法分为以下3种：</p>
+
+<p>Filter：过滤法，按照发散性或者相关性对每个特征进行评分，设定阈值或者待选择阈值的个数，选择特征</p>
+
+<p>Wrapper：包装法，根据目标函数，每次选择若干特征，或者排除若干特征</p>
+
+<p>Embedded：嵌入法，先使用某些机器学习算法和模型进行训练，得到各个特征的权值系数，根据系数从大到小选择特征。</p>
+
+<p>使用sklearn中的<strong>feature_selection库</strong>来进行特征选择。</p>
+
+<h3 id="31filter">3.1Filter</h3>
+
+<h4 id="311方差选择法">3.1.1方差选择法</h4>
+
+<p>使用方差选择法，先计算每个特征的方差，然后根据阈值，选择大于阈值的特征。</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">VarianceThreshold</span>
+<span class="n">VarianceThreshold</span><span class="p">(</span><span class="n">threshold</span> <span class="o">=</span> <span class="mi">3</span><span class="p">).</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">iris</span><span class="p">.</span><span class="n">data</span><span class="p">)</span> <span class="c1"># 参数threshold为阈值
+</span></code></pre></div></div>
+
+<h4 id="312相关系数法">3.1.2相关系数法</h4>
+
+<p>使用相关系数法，先要计算每个特征对目标值的相关系数以及相关系数的p值。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sklearn.feature_selection import SelectKBest
+from scipy.stats import pearsonr
+# 选择k个最好的特征，返回选择特征后的数据
+</code></pre></div></div>
+
+<h4 id="313卡方检验">3.1.3卡方检验</h4>
+
+<p>经典的卡方检验是检验定性自变量对定性因变量的相关性。</p>
+
+<h4 id="314互信息法">3.1.4互信息法</h4>
+
+<p>经典的互信息法也是评价定性自变量对定性因变量的相关性，互信息法公式如下：</p>
+
+\[I(X;Y) =
+\sum\limits_{x{\in}X} \sum\limits_{y{\in}X}
+p(x,y)log\frac{p(x,y)}{p(x)p(y)}\]
+
+<h3 id="32wrapper">3.2Wrapper</h3>
+
+<h4 id="321递归特征消除法">3.2.1递归特征消除法</h4>
+
+<p>这种方法使用一个基模型来进行多轮训练，每轮训练后，消除若干权值系数的特征，再基于新的特征集进行下一轮训练。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sklearn.feature_selection import RFE
+from sklearn.linear_model import LogisticRegression
+# 参数estimator为基模型
+# 参数n_features_to_select为选择的特征个数
+RFE(estimator= LogisticRegression(), n_features_to_select = 2).fit_transform(iris.data, iris.target)
+</code></pre></div></div>
+
+<h2 id="4降维">4、降维</h2>
+
+<p><strong>PCA是一种无监督的降维方法，LDA是一种有监督的降维方法。</strong></p>
+
+<ul>
+  <li>主成分分析法</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sklearn.decomposition import PCA
+# 参数n_components为主成分数目
+PCA(n_components = 2).fit_transform(iris.data)
+</code></pre></div></div>
+
+<ul>
+  <li>线性判别分析法</li>
+</ul>
+
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

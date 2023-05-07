@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>参考 | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="参考">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/linux/git.html">
+<meta property="og:url" content="https://hahadsg.github.io/linux/git.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="参考">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"参考","url":"https://hahadsg.github.io/linux/git.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1 id="参考">参考</h1>
+
+<p>https://git-scm.com/book/en/v2</p>
+
+<h1 id="符号注意">符号注意</h1>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 使用*需要转义
+git add log/\*.log
+</code></pre></div></div>
+
+<h1 id="常用命令">常用命令</h1>
+
+<h2 id="branch">branch</h2>
+
+<ul>
+  <li>new branch</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">-u</span> origin &lt;branch&gt;
+</code></pre></div></div>
+
+<ul>
+  <li>delete branch</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 本地</span>
+git branch <span class="nt">-d</span> &lt;branch&gt;
+<span class="c"># 远端</span>
+git push origin :&lt;branch&gt;
+</code></pre></div></div>
+
+<h2 id="tag">tag</h2>
+
+<ul>
+  <li>add tag</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 增加标签</span>
+git tag <span class="nt">-a</span> v1.4 <span class="nt">-m</span> <span class="s1">'my version 1.4'</span>
+<span class="c"># push一个标签</span>
+git push origin v1.5
+<span class="c"># push本地所有标签</span>
+git push origin <span class="nt">--tags</span>
+</code></pre></div></div>
+
+<ul>
+  <li>delete tag</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 本地
+git tag -d v1.0
+# remote
+git push --delete origin v1.0
+</code></pre></div></div>
+
+<ul>
+  <li>show tag</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 按照taggerdate排序 显示annotate</span>
+git tag <span class="nt">--sort</span><span class="o">=</span>taggerdate <span class="nt">-n</span>
+<span class="c"># taggerdate设为默认排序</span>
+git config tag.sort taggerdate
+</code></pre></div></div>
+
+<h2 id="config">config</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 显示所有配置
+git config --list
+
+# 显示单个配置
+git config [config_name]
+
+# 配置name email
+git config --global user.name "Your Name"
+git config --global user.email "email@example.com"
+
+# 解决status中文乱码问题
+git config --global core.quotepath false
+
+# 配置push大小限制（500M）
+git config --global http.postBuffer 524288000
+
+# 开启颜色
+git config --global color.status auto
+git config --global color.diff auto
+git config --global color.branch auto
+git config --global color.interactive auto
+
+# 保存credential 不用重复输入账号密码
+git config --global credential.helper store
+# 如果有多个git账号对应不同的仓库
+git config --global credential.useHttpPath true
+</code></pre></div></div>
+
+<ul>
+  <li>set url</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote set-url origin https://...
+git remote set-url --push origin https://...
+</code></pre></div></div>
+
+<h2 id="diff">diff</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># This command compares your staged changes to your last commit
+git diff --staged
+
+# 显示diff的文件 以及删增情况
+git diff --stat [commit]
+</code></pre></div></div>
+
+<h2 id="log">log</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 显示diff
+git log -p/--patch
+# 限制log数
+git log -10
+
+# log只显示为一行
+git log --pretty=oneline
+# 显示log树
+git log --pretty=oneline --graph
+</code></pre></div></div>
+
+<ul>
+  <li>decorate</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 显示分支、tags等信息</span>
+git log <span class="nt">--decorate</span>
+<span class="c"># 也可以通过配置默认开启</span>
+git config log.decorate auto
+</code></pre></div></div>
+
+<h2 id="head">HEAD</h2>
+
+<p><code class="language-plaintext highlighter-rouge">HEAD</code>相当于指针，指向当前commit
+<code class="language-plaintext highlighter-rouge">HEAD^</code>表示上一个commit
+<code class="language-plaintext highlighter-rouge">HEAD^^</code>表示上上个commit
+<code class="language-plaintext highlighter-rouge">HEAD~100</code>表示往前推100个commit
+<code class="language-plaintext highlighter-rouge">HEAD^</code>与<code class="language-plaintext highlighter-rouge">HEAD~1</code>等价</p>
+
+<h2 id="commit">commit</h2>
+
+<ul>
+  <li>漏掉一些文件没commit</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit -m 'initial commit'
+git add [forgotten_file]
+git commit --amend
+</code></pre></div></div>
+
+<h2 id="reset">reset</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 回退到某个commit
+git reset --hard [commit]
+</code></pre></div></div>
+
+<h2 id="gitignore">gitignore</h2>
+
+<ul>
+  <li>忽略数据文件，除非在制定文件夹中</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>*.csv
+*.txt
+*.xlsx
+
+!**/reserve/**
+
+</code></pre></div></div>
+
+<h2 id="clean">clean</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># show clean files(untracked files)</span>
+git clean <span class="nt">-n</span>
+<span class="c"># remove untracked files</span>
+git clean <span class="nt">-f</span>
+
+<span class="c"># remove dir</span>
+git clean <span class="nt">-f</span> <span class="nt">-d</span>
+<span class="c"># remove ignored files</span>
+git clean <span class="nt">-f</span> <span class="nt">-X</span>
+<span class="c"># remove ignored and non-ignored files</span>
+git clean <span class="nt">-f</span> <span class="nt">-x</span>
+</code></pre></div></div>
+
+<h1 id="专题">专题</h1>
+
+<h2 id="清理所有git历史">清理所有git历史</h2>
+
+<h3 id="方法1有submodule也可以用">方法1（有submodule也可以用）</h3>
+
+<p>Checkout</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout <span class="nt">--orphan</span> latest_branch
+</code></pre></div></div>
+
+<p>Add all the files</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nt">-A</span>
+</code></pre></div></div>
+
+<p>Commit the changes</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">-am</span> <span class="s2">"commit message"</span>
+</code></pre></div></div>
+
+<p>Delete the branch</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch <span class="nt">-D</span> master
+</code></pre></div></div>
+
+<p>Rename the current branch to master</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch <span class="nt">-m</span> master
+</code></pre></div></div>
+
+<p>Finally, force update your repository</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">-f</span> origin master
+</code></pre></div></div>
+
+<h3 id="方法2">方法2</h3>
+
+<p>– Remove the history from 
+rm -rf .git</p>
+
+<p>– recreate the repos from the current content only
+git init
+git add .
+git commit -m “Initial commit”</p>
+
+<p>– push to the github remote repos ensuring you overwrite history
+git remote add origin git@github.com:<your account="">/<your repos="">.git
+git push -u --force origin master</your></your></p>
+
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

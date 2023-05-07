@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>ELMo | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="ELMo">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/MachineLearning/NLP/ELMo.html">
+<meta property="og:url" content="https://hahadsg.github.io/MachineLearning/NLP/ELMo.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2020-02-19T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="ELMo">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2020-02-19T00:00:00+00:00","datePublished":"2020-02-19T00:00:00+00:00","headline":"ELMo","mainEntityOfPage":{"@type":"WebPage","@id":"https://hahadsg.github.io/MachineLearning/NLP/ELMo.html"},"url":"https://hahadsg.github.io/MachineLearning/NLP/ELMo.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1 id="elmo-embeddings-from-language-models">ELMo (Embeddings from Language Models)</h1>
+
+<p>Word2Vector的词向量对于多义词无法太好的分辨，ELMo为了解决这个问题加入了能够利用文本顺序的结构。
+另外，Word2Vector是将预训练后的词向量作为特征提供给下游模型，而ELMo是对整个输入句子的表达，然后将这个表达加入到特征中（有点像提供了一个函数，这个函数对整个句子进行描述，产生向量，给下游使用）。</p>
+
+<h2 id="结构">结构</h2>
+
+<h3 id="bidirectional-language-models-bi-lm">Bidirectional language models (bi-LM)</h3>
+
+<p>bi-LM其实就是分成两个分支，一个提取前向特征，一个提取后向特征，下图展示了这一过程：</p>
+
+<p><img src="./assets/ELMo/ELMo_arch.jpg" alt="drawing" width="500"></p>
+
+<p>我们将这个过程公式化，给定一个包含N个token的序列：\((t_1, t_2, ..., t_N)\)，前向的语言模型每次根据历史的词\((t_1, ..., t_{k-1})\)预测下一个词\(t_{k}\)，那么输出整个序列的概率就是：</p>
+
+\[p(t_1, t_2, ..., t_N) = \prod\limits^N_{k=1} p(t_k \mid t_1, ..., t_{k-1})\]
+
+<p>假设这个前向的语言模型使用的是\(L\)层的LSTM，那在第\(j\)层第\(k\)个位置的词的隐向量为\(\overrightarrow{h}^{LM}_{k,j}\)</p>
+
+<p>类似的，反向的语言模型每次根据未来的词\((t_{k+1}, ..., t_N)\)预测前一个词\(t_k\)，那么输出整个序列的概率就是：</p>
+
+\[p(t_1, t_2, ..., t_N) = \prod\limits^N_{k=1} p(t_k \mid t_{k+1}, ..., t_{N})\]
+
+<p>对应的隐向量为\(\overleftarrow{h}^{LM}_{k,j}\)</p>
+
+<p>最后，bi-LM需要将这两部分合并起来，最大似然函数是：</p>
+
+\[\sum\limits^N_{k=1} \left( \log p(t_k \mid t_1, ..., t_{k-1}; \Theta_x, \overrightarrow{\Theta}_{LSTM}, \Theta_S) + \log p(t_k \mid t_1, ..., t_{k-1}; \Theta_x, \overleftarrow{\Theta}_{LSTM}, \Theta_S) \right)\]
+
+<p>其中，\(\Theta_x\)是token的表达，\(\Theta_S\)是输出token的softmax参数的表达，前向和后向的LSTM的分开的。</p>
+
+<h3 id="elmo">ELMo</h3>
+
+<p>ELMo将bi-LM的中的表达合并后给下游使用。对于一个\(L\)层的bi-LM，总共有\(2L+1\)个表达：</p>
+
+\[\begin{align}
+R_k &amp;= \left\{ x^{LM}_k, \overrightarrow{h}^{LM}_{k,j}, \overleftarrow{h}^{LM}_{k,j} \mid j = 1,...,L \right\} \\
+&amp;= \left\{ h_{k,j}^{LM} \mid j = 0,...,L \right\} \\
+\end{align}\]
+
+<p>其中，\(h^{LM}_{0,k}\)就是最开始token的表达，\(h_{k,j}^{LM} = \left[ \overrightarrow{h}^{LM}_{k,j} ; \overleftarrow{h}^{LM}_{k,j} \right]\)将两个方向的隐向量进行了拼接</p>
+
+<p>然后，ELMo将中间所有的表达拿出来进行加权给下游使用（当然也可以只拿一分部，没拿的部分相当于权重是0），图示如下：</p>
+
+<p><img src="./assets/ELMo/ELMo_downstream.jpg" alt="drawing" width="900"></p>
+
+<p>公式化后为：</p>
+
+\[ELMo_k^{task} = \gamma^{task} \sum\limits^L_{j=0} s_j^{task} h_{k,j}^{LM}\]
+
+<p>其中，\(s_j^{task}\)是softmax后的权重，这个是学习到的，\(\gamma^{task}\)是缩放因子，是一个超参，调整特征向量的尺度。这样就得到了一个加权后的向量作为下游的特征。</p>
+
+<h3 id="用于下游任务">用于下游任务</h3>
+
+<p>假设下游任务有自己的结构提取句子的特征，可以是不带上下文信息的特征（比如word2vec），可以是带上下文信息的特征（比如RNN、CNN的输出）。将ELMo的参数冻住，然后将ELMo的输出和原本的特征拼接起来后作为新的特征。</p>
+
+<h3 id="预训练bi-lm">预训练bi-LM</h3>
+
+<p>时间中ELMo选取了两层LSTM，然后第二层做了个残差网络。其他的参数我没有特别的理解，感觉需要看一下引用的论文，后面再补充。</p>
+
+<h1 id="todo">TODO</h1>
+
+<ul>
+  <li>补充预训练bi-LM部分</li>
+</ul>
+
+<h1 id="参考">参考</h1>
+
+<p><a href="https://arxiv.org/pdf/1802.05365.pdf">Deep contextualized word representations
+Matthew</a></p>
+
+<p><a href="https://zhuanlan.zhihu.com/p/49271699">知乎-张俊林</a></p>
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

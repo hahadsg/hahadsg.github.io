@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Read and Write Files | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="Read and Write Files">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/python/pyspark.html">
+<meta property="og:url" content="https://hahadsg.github.io/python/pyspark.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Read and Write Files">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"Read and Write Files","url":"https://hahadsg.github.io/python/pyspark.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1 id="read-and-write-files">Read and Write Files</h1>
+
+<h2 id="read">read</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">sql_ctx</span><span class="p">.</span><span class="n">read</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'header'</span><span class="p">,</span> <span class="s">'true'</span><span class="p">)</span> \ <span class="c1"># 是否有header（即列名）
+</span>    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'inferschema'</span><span class="p">,</span> <span class="s">'true'</span><span class="p">)</span> \ <span class="c1"># 自动推断schema, 据我观察 这个操作会读两次文件
+</span>    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'delimiter", '</span><span class="p">,</span><span class="s">') </span><span class="se">\
+</span><span class="s">    .option('</span><span class="n">quote</span><span class="s">', '</span>\<span class="s">"') </span><span class="se">\
+</span><span class="s">    .csv('/tmp/csv_test')
+</span></code></pre></div></div>
+
+<h2 id="write">write</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="s">'overwrite'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'header'</span><span class="p">,</span> <span class="s">'true'</span><span class="p">)</span> \ <span class="c1"># 是否有header（即列名）
+</span>    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'ignoreLeadingWhiteSpace'</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span> \ <span class="c1"># 是否去掉前的空白字符
+</span>    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'ignoreTrailingWhiteSpace'</span><span class="p">,</span><span class="bp">False</span><span class="p">)</span> \ <span class="c1"># 是否去掉后面的空白字符
+</span>    <span class="p">.</span><span class="n">csv</span><span class="p">(</span><span class="s">'/tmp/csv_test'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="different-data-source">Different Data Source</h1>
+
+<h2 id="redshift">redshift</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SPARK_REDSHIFT</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">'jdbc:redshift://&lt;url&gt;'</span>
+    <span class="s">':&lt;port&gt;/&lt;schema&gt;?user=&lt;user&gt;&amp;password=&lt;password&gt;'</span>
+<span class="p">)</span>
+<span class="n">S3_TMP_DIR</span> <span class="o">=</span> <span class="s">'&lt;s3_url&gt;'</span>
+
+<span class="c1"># sql query
+</span><span class="n">sql</span> <span class="o">=</span> <span class="s">'select * from &lt;table&gt; limit 10'</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">sql_ctx</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">'com.databricks.spark.redshift'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'url'</span><span class="p">,</span> <span class="n">SPARK_REDSHIFT</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'query'</span><span class="p">,</span> <span class="n">sql</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'tempdir'</span><span class="p">,</span> <span class="n">S3_TMP_DIR</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># get data from table
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">sql_ctx</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">'com.databricks.spark.redshift'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'url'</span><span class="p">,</span> <span class="n">SPARK_REDSHIFT</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'dbtable'</span><span class="p">,</span> <span class="n">table_name</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">'tempdir'</span><span class="p">,</span> <span class="n">S3_TMP_DIR</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">load</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<h1 id="custom-pipeline">Custom Pipeline</h1>
+
+<p>https://stackoverflow.com/questions/37270446/how-to-roll-a-custom-estimator-in-pyspark-mllib</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml.pipeline</span> <span class="kn">import</span> <span class="n">Estimator</span><span class="p">,</span> <span class="n">Transformer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.param.shared</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
+
+<span class="k">class</span> <span class="nc">HasK</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    
+    <span class="n">k</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="p">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s">'k'</span><span class="p">,</span> <span class="s">'k'</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="p">.</span><span class="n">toInt</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasK</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">setK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_set</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">getK</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">k</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">HasClusterCenters</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+
+    <span class="n">cluster_centers</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="p">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s">'cluster_centers'</span><span class="p">,</span> <span class="s">'cluster_centers'</span><span class="p">,</span> <span class="n">TypeConverters</span><span class="p">.</span><span class="n">toList</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HasClusterCenters</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">setClusterCenters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_set</span><span class="p">(</span><span class="n">cluster_centers</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">getClusterCenters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cluster_centers</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">OneClassKmeans</span><span class="p">(</span><span class="n">Estimator</span><span class="p">,</span> <span class="n">HasFeaturesCol</span><span class="p">,</span> <span class="n">HasPredictionCol</span><span class="p">,</span> 
+                     <span class="n">HasK</span><span class="p">,</span> <span class="n">HasClusterCenters</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">featuresCol</span><span class="o">=</span><span class="s">"features"</span><span class="p">,</span> <span class="n">predictionCol</span><span class="o">=</span><span class="s">"prediction"</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                 <span class="n">initMode</span><span class="o">=</span><span class="s">"k-means||"</span><span class="p">,</span> <span class="n">initSteps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">OneClassKmeans</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">setFeaturesCol</span><span class="p">(</span><span class="n">featuresCol</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">setPredictionCol</span><span class="p">(</span><span class="n">predictionCol</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">setK</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">getFeaturesCol</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">getPredictionCol</span><span class="p">()</span>
+        
+        <span class="n">dataset</span><span class="p">.</span><span class="n">cache</span><span class="p">()</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">F</span><span class="p">.</span><span class="n">lit</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        
+        <span class="n">udf_to_list</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">udf</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">.</span><span class="n">toArray</span><span class="p">().</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">ArrayType</span><span class="p">(</span><span class="n">FloatType</span><span class="p">()))</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">udf_to_list</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        
+        <span class="c1"># 计算中心
+</span>        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">first</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">groupBy</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> \
+            <span class="p">.</span><span class="n">agg</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">F</span><span class="p">.</span><span class="n">avg</span><span class="p">(</span><span class="n">F</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]).</span><span class="n">alias</span><span class="p">(</span><span class="s">'averages'</span><span class="p">))</span> \
+            <span class="p">.</span><span class="n">first</span><span class="p">()[</span><span class="s">'averages'</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">setClusterCenters</span><span class="p">(</span><span class="n">cc</span><span class="p">)</span>
+        
+        <span class="n">dataset</span><span class="p">.</span><span class="n">unpersist</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">OneClassKmeansModel</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">setFeaturesCol</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">getFeaturesCol</span><span class="p">())</span>
+            <span class="p">.</span><span class="n">setPredictionCol</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">getPredictionCol</span><span class="p">())</span>
+            <span class="p">.</span><span class="n">setK</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">getK</span><span class="p">())</span>
+            <span class="p">.</span><span class="n">setClusterCenters</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">getClusterCenters</span><span class="p">()))</span>
+
+<span class="k">class</span> <span class="nc">OneClassKmeansModel</span><span class="p">(</span><span class="n">Transformer</span><span class="p">,</span> <span class="n">HasFeaturesCol</span><span class="p">,</span> <span class="n">HasPredictionCol</span><span class="p">,</span>
+                          <span class="n">HasK</span><span class="p">,</span> <span class="n">HasClusterCenters</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">getFeaturesCol</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">getPredictionCol</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">dataset</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">F</span><span class="p">.</span><span class="n">lit</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">clusterCenters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">getClusterCenters</span><span class="p">()</span>
+    
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">OneClassKmeans</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">featuresCol</span><span class="o">=</span><span class="s">'standardized_user_features'</span><span class="p">,</span> <span class="n">predictionCol</span><span class="o">=</span><span class="s">'cluster_prediction'</span><span class="p">)</span>
+<span class="n">kmeans</span>
+</code></pre></div></div>
+
+<h2 id="设置日志等级">设置日志等级</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">logger</span> <span class="o">=</span> <span class="n">sc</span><span class="p">.</span><span class="n">_jvm</span><span class="p">.</span><span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">log4j</span>
+<span class="n">logger</span><span class="p">.</span><span class="n">LogManager</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">"org"</span><span class="p">).</span><span class="n">setLevel</span><span class="p">(</span> <span class="n">logger</span><span class="p">.</span><span class="n">Level</span><span class="p">.</span><span class="n">ERROR</span> <span class="p">)</span>
+<span class="n">logger</span><span class="p">.</span><span class="n">LogManager</span><span class="p">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">"akka"</span><span class="p">).</span><span class="n">setLevel</span><span class="p">(</span> <span class="n">logger</span><span class="p">.</span><span class="n">Level</span><span class="p">.</span><span class="n">ERROR</span> <span class="p">)</span>
+</code></pre></div></div>
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

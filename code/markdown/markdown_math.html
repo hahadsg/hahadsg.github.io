@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>markdown math | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="markdown math">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/code/markdown/markdown_math.html">
+<meta property="og:url" content="https://hahadsg.github.io/code/markdown/markdown_math.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="markdown math">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"markdown math","url":"https://hahadsg.github.io/code/markdown/markdown_math.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1 id="基本公式语法">基本公式语法</h1>
+
+<h2 id="公式对齐">公式对齐</h2>
+
+<p>使用语法：（<code class="language-plaintext highlighter-rouge">\\</code>是换行的意思，<code class="language-plaintext highlighter-rouge">&amp;</code>是对齐的位置）</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$$
+<span class="se">\b</span>egin{align}
+a &amp;= 1 <span class="err">*</span> 2 + 3 <span class="se">\\</span>
+  &amp;= 3 + 3 <span class="se">\\</span>
+  &amp;= 6 <span class="se">\\</span>
+<span class="se">\e</span>nd{align}
+$$
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+\[\begin{align}
+a &amp;= 1 * 2 + 3 \\
+  &amp;= 3 + 3 \\
+  &amp;= 6 \\
+\end{align}\]
+
+<h2 id="符号">符号</h2>
+
+<h3 id="四则运算">四则运算</h3>
+
+<p>乘法：<code class="language-plaintext highlighter-rouge">\times</code>，如\(a \times b\)</p>
+
+<h3 id="逻辑运算">逻辑运算</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>symbols</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\gt</code></td>
+      <td>\(\gt\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\lt</code></td>
+      <td>\(\lt\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\geq</code></td>
+      <td>\(\geq\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\leq</code></td>
+      <td>\(\leq\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\approx</code></td>
+      <td>\(\approx\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="集合运算">集合运算</h3>
+
+<p>属于：<code class="language-plaintext highlighter-rouge">\in</code>，如\(x \in y\)</p>
+
+<h3 id="集合符号">集合符号</h3>
+
+<p>实数集合：<code class="language-plaintext highlighter-rouge">\mathbb{N}</code>，如\(\mathbb{R}\)</p>
+
+<h3 id="greek-letters">greek letters</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>symbols</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\alpha</code></td>
+      <td>\(\alpha\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\beta</code></td>
+      <td>\(\beta\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\gamma</code></td>
+      <td>\(\gamma\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\delta</code></td>
+      <td>\(\delta\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\epsilon</code></td>
+      <td>\(\epsilon\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\varepsilon</code></td>
+      <td>\(\varepsilon\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\zeta</code></td>
+      <td>\(\zeta\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\eta</code></td>
+      <td>\(\eta\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Gamma</code></td>
+      <td>\(\Gamma\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Delta</code></td>
+      <td>\(\Delta\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Theta</code></td>
+      <td>\(\Theta\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\theta</code></td>
+      <td>\(\theta\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\vartheta</code></td>
+      <td>\(\vartheta\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\iota</code></td>
+      <td>\(\iota\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\kappa</code></td>
+      <td>\(\kappa\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\lambda</code></td>
+      <td>\(\lambda\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\mu</code></td>
+      <td>\(\mu\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\nu</code></td>
+      <td>\(\nu\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\xi</code></td>
+      <td>\(\xi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Lambda</code></td>
+      <td>\(\Lambda\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Xi</code></td>
+      <td>\(\Xi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Pi</code></td>
+      <td>\(\Pi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\pi</code></td>
+      <td>\(\pi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\varpi</code></td>
+      <td>\(\varpi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\rho</code></td>
+      <td>\(\rho\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\varrho</code></td>
+      <td>\(\varrho\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\sigma</code></td>
+      <td>\(\sigma\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\varsigma</code></td>
+      <td>\(\varsigma\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\tau</code></td>
+      <td>\(\tau\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Sigma</code></td>
+      <td>\(\Sigma\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Upsilon</code></td>
+      <td>\(\Upsilon\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Phi</code></td>
+      <td>\(\Phi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\upsilon</code></td>
+      <td>\(\upsilon\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\phi</code></td>
+      <td>\(\phi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\varphi</code></td>
+      <td>\(\varphi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\chi</code></td>
+      <td>\(\chi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\psi</code></td>
+      <td>\(\psi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\omega</code></td>
+      <td>\(\omega\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Psi</code></td>
+      <td>\(\Psi\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\Omega</code></td>
+      <td>\(\Omega\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="数学常用符号">数学常用符号</h3>
+
+<p>微分算符：<code class="language-plaintext highlighter-rouge">\nabla</code>，\(\nabla\)</p>
+
+<p>逐元素乘（Hadamard product）：<code class="language-plaintext highlighter-rouge">\circ</code>，\(\circ\)</p>
+
+<p>求最小值：<code class="language-plaintext highlighter-rouge">\mathop{\arg\min}_{\theta} f(\theta)</code>，\(\mathop{\arg\min}_{\theta} f(\theta)\)</p>
+
+<p>内积：<code class="language-plaintext highlighter-rouge">\langle x, y \rangle</code>，\(\langle x, y \rangle\)</p>
+
+<h3 id="hat">hat</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>symbols</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\hat{x}</code></td>
+      <td>\(\hat{x}\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\tilde{x}</code></td>
+      <td>\(\tilde{x}\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\bar{x}</code></td>
+      <td>\(\bar{x}\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\vec{x}</code></td>
+      <td>\(\vec{x}\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\overrightarrow{x}</code></td>
+      <td>\(\overrightarrow{x}\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">\overleftarrow{x}</code></td>
+      <td>\(\overleftarrow{x}\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="数学公式大括号">数学公式大括号</h3>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$$
+f(s) = 
+<span class="se">\b</span>egin{cases}
+s &amp;if<span class="se">\ </span>s <span class="se">\g</span>t 0 <span class="se">\\</span>
+<span class="se">\a</span>lpha s &amp;if<span class="se">\ </span>s <span class="se">\l</span>eq 0 <span class="se">\\</span>
+<span class="se">\e</span>nd{cases}
+$$
+</code></pre></div></div>
+
+\[f(s) = 
+\begin{cases}
+s &amp;if\ s \gt 0 \\
+\alpha s &amp;if\ s \leq 0 \\
+\end{cases}\]
+
+<h3 id="空格">空格</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>code</th>
+      <th>symbols</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">a\ b</code></td>
+      <td>\(a\ b\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">a\quad b</code></td>
+      <td>\(a\quad b\)</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">a\qquad b</code></td>
+      <td>\(a\qquad b\)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="更好的写公式">更好的写公式</h1>
+
+<h2 id="竖线">竖线</h2>
+
+<p>比如条件概率，尽量使用<code class="language-plaintext highlighter-rouge">p(x\mid \theta)</code>，而不是<code class="language-plaintext highlighter-rouge">p(x|\theta)</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">p(x|\theta)</code>的效果如下：（另外，如果使用该方法在github page中可能会出现bug，它会认为竖线是table）</p>
+
+\[p(x|\theta)\]
+
+<p><code class="language-plaintext highlighter-rouge">p(x\mid \theta)</code>的效果如下：</p>
+
+\[p(x\mid \theta)\]
+
+<h2 id="点乘">点乘</h2>
+
+<p>比如矩阵相乘，尽量使用<code class="language-plaintext highlighter-rouge">\cdot</code>，而不是<code class="language-plaintext highlighter-rouge">.</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">.</code>的效果如下：</p>
+
+\[A . B\]
+
+<p><code class="language-plaintext highlighter-rouge">\cdot</code>的效果如下：</p>
+
+\[A \cdot B\]
+
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

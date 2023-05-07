@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>预处理 | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="预处理">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/MachineLearning/other/kaggle.html">
+<meta property="og:url" content="https://hahadsg.github.io/MachineLearning/other/kaggle.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="预处理">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"预处理","url":"https://hahadsg.github.io/MachineLearning/other/kaggle.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2 id="预处理">预处理</h2>
+<hr>
+
+<h3 id="numerical-features">numerical features</h3>
+
+<ul>
+  <li>
+    <p>归一化</p>
+  </li>
+  <li>
+    <p>异常点</p>
+
+    <p>一些模型对异常点较敏感，所以需要处理异常点，可以进行裁剪（clip）或者排序（rank）</p>
+  </li>
+  <li>
+    <p>变换</p>
+
+    <p>使数据更符合正太分布，然后在归一化更合理</p>
+
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>np.log(1 + x)
+np.sqrt(x + 2/3)
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h3 id="categorical-features">categorical features</h3>
+
+<ul>
+  <li>
+    <p>是否有序</p>
+
+    <p>如果有序，直接转化成numerical features</p>
+  </li>
+  <li>
+    <p>label encoding</p>
+
+    <p>随机的给编号，树模型能一定程度的处理这种数据
+好处是不会增加列；缺点是，即便树模型，有时候也会认为这个指标不重要，因为可能需要把它分得很细才能发现这个指标有用</p>
+  </li>
+  <li>
+    <p>frequency encoding</p>
+
+    <p>用出现频率encoding</p>
+  </li>
+  <li>
+    <p>one-hot encoding</p>
+
+    <p>它的缺点是如果特征包含的类型过多，会导致增加太多的列，这样如果对列进行随机然后建模，可能很难随机到其他特征（就是类型多的那个特征特别容易被随机到）</p>
+  </li>
+  <li>
+    <p>mean encoding</p>
+
+    <p>注意，使用mean encoding时，不能将验证集加入encoding，先在训练集上编码，再transform验证集，否则会出现数据泄露</p>
+
+    <ol>
+      <li>
+\[mean(target)\]
+      </li>
+      <li>
+\[ln(\frac{Goods}{Bads})*100\]
+      </li>
+      <li>
+\[sum(target)\]
+      </li>
+      <li>
+\[Goods-Bads\]
+      </li>
+    </ol>
+
+    <p>smoothing: \(\frac{mean(target)*nrows+globalmean*alpha}{nrows+alpha}\)</p>
+
+    <p>expanding mean:</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">cumsum</span> <span class="o">=</span> <span class="n">df_tr</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">col</span><span class="p">)[</span><span class="s">'target'</span><span class="p">].</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">-</span> <span class="n">df_tr</span><span class="p">[</span><span class="s">'target'</span><span class="p">]</span>
+<span class="n">cumcnt</span> <span class="o">=</span> <span class="n">df_tr</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">col</span><span class="p">).</span><span class="n">cumcount</span><span class="p">()</span>
+<span class="n">train_new</span><span class="p">[</span><span class="n">col</span><span class="o">+</span><span class="s">' mean target'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cumsum</span> <span class="o">/</span> <span class="n">cumcnt</span>
+</code></pre></div>    </div>
+
+    <p>可以参考：https://github.com/hahadsg/MyKaggle/blob/master/competitions/competitive-data-science-final-project/mean_encoding.ipynb</p>
+  </li>
+</ul>
+
+<h3 id="datetime-features">datetime features</h3>
+
+<ul>
+  <li>
+    <p>时间属性</p>
+
+    <p>年月日、时分秒、周等</p>
+  </li>
+  <li>
+    <p>时间起始</p>
+
+    <p>依赖行的顺序：时间戳；不依赖行的顺序：上一次事件距今时间间隔、上一次假期距今时间间隔等</p>
+  </li>
+  <li>
+    <p>时间间隔</p>
+
+    <p>两个时间字段的差</p>
+  </li>
+</ul>
+
+<h3 id="coordinates-features">coordinates features</h3>
+
+<ul>
+  <li>
+    <p>到重要坐标的距离</p>
+
+    <p>已知的重要坐标：比如学校、商场、地铁等；未知的：比如将所有点聚类然后用中心、将地图划为方格 距离各自方格中最贵的坐标</p>
+  </li>
+  <li>
+    <p>聚合统计量</p>
+
+    <p>对每个区域求聚合统计量：平均房价等（区域可以划方格或者聚类）</p>
+  </li>
+  <li>
+    <p>坐标旋转</p>
+
+    <p>将坐标旋转有时候能帮助树模型提升性能（可以用pca进行”旋转”）</p>
+  </li>
+</ul>
+
+<h3 id="missing-values">missing values</h3>
+
+<ul>
+  <li>
+    <p>数据已经进行缺失值处理</p>
+
+    <p>画出直方图，发现在-1有一个峰，或者发现在平均值有个峰</p>
+  </li>
+  <li>
+    <p>填充固定值</p>
+
+    <p>如-1，-999
+不适合在线性模型中使用，适合树模型</p>
+  </li>
+  <li>
+    <p>填充均值/中值</p>
+
+    <p>不适合树模型，适合线性模型</p>
+  </li>
+  <li>
+    <p>重构缺失值</p>
+
+    <p>缺失的位置是否能很好的预估，比如中间的时间段缺失，用直线连起来</p>
+  </li>
+  <li>
+    <p>可以将异常点视为缺失值</p>
+  </li>
+  <li>
+    <p>注意点</p>
+
+    <p>1、填充均值有时候很不合理，比如某特征按时间趋势是抛物线形状的，取均值大约是0，这样就很不符合趋势（一般比较稳定的指标取均值才合理）</p>
+
+    <p>2、在给特征A填充了-999后，需要非常注意根据特征A生成其他特征，因为会使均值严重偏离正常范围</p>
+  </li>
+</ul>
+
+<h3 id="features-combind">features combind</h3>
+
+<p>利用xgboost，如果两个特征在决策树中总是挨在一起，我们就有理由认为他们的关联很紧密。挨在一起是指，当前节点是用特征A分割，下个节点用B分割。找出挨在一起最频繁的特征对。</p>
+
+<h2 id="edaexploratory-data-analysis">EDA(exploratory data analysis)</h2>
+<hr>
+
+<h3 id="理解特征含义">理解特征含义</h3>
+
+<ul>
+  <li>
+    <p>逻辑错误的特征</p>
+
+    <p>在碰到一个特征出现常识性的错误时，比如年龄好几百，先观察获取到论坛看看，是否由于某些机制引起的错误，相应的采取措施比直接进行clip要好</p>
+
+    <p>有时候会发现特征的值出现逻辑上的错误，比如一个广告场景，展示次数一定大于点击次数，那么这个时候我们可以增加一列<code class="language-plaintext highlighter-rouge">is_incorrect</code>，有时候能增加模型的性能</p>
+  </li>
+  <li>
+    <p>匿名特征</p>
+
+    <p>有时候举办方会将数据进行处理，让我们看不到原本的含义，我们可以尝试着恢复</p>
+
+    <p>出生年份恢复：https://github.com/hahadsg/MyKaggle/blob/master/trick/EDA/exploring_anonymized_data-year.ipynb</p>
+
+    <p>或者猜测匿名特征（原始的）类型，有助于预处理数据和挑选模型</p>
+  </li>
+</ul>
+
+<h3 id="验证集">验证集</h3>
+
+<ul>
+  <li>
+    <p>了解测试集的生成规则</p>
+
+    <p>有时候测试集的生成规则与训练集不同，这样会选取不合理的验证集，会导致在训练时候出现错误的方向</p>
+  </li>
+  <li>
+    <p>测试集的时间范围小，但是记录数很多</p>
+
+    <p>有可能在测试集中掺入的噪音数据，做一些编码时注意不要带测试集</p>
+
+    <p>也有可能，测试集需要预测所有情况的值，而训练集只提供有效的值，参考：https://github.com/hahadsg/MyKaggle/blob/master/competitions/competitive-data-science-final-project/EDA_test_datasets.ipynb</p>
+  </li>
+</ul>
+
+<h3 id="可视化">可视化</h3>
+
+<ul>
+  <li>
+    <p>直方图</p>
+  </li>
+  <li>
+    <p>散点图（某一个特征）</p>
+
+    <p>以index为x轴，以特征为y轴，可以大致看出数据是否是很随机的或者有规律的</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">plotting</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>describe</p>
+  </li>
+  <li>
+    <p>散点图（两个特征间关系）</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="n">pd</span><span class="p">.</span><span class="n">scatter_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>类别关系，数据集关系</p>
+
+    <p>加上<code class="language-plaintext highlighter-rouge">c=y</code>可以看出跟类别有什么关系，<code class="language-plaintext highlighter-rouge">c=test/train</code>可以看出训练/测试有什么关系，也可以将上述两个同时展示（因为测试数据没有<code class="language-plaintext highlighter-rouge">y</code>，所以可以显示灰色</p>
+  </li>
+  <li>
+    <p>协方差矩阵热力图</p>
+
+    <p>特征分组：如果直接画出的热力图很乱，可以求出每个特征均值然后排序再展示，看起来更有条理（http://scikit-learn.org/stable/auto_examples/bicluster/plot_spectral_biclustering.html）</p>
+  </li>
+  <li>
+    <p>可视化工具</p>
+
+    <p><a href="https://seaborn.pydata.org/">seaborn</a>, <a href="https://plot.ly/python/">plotly</a>, <a href="https://github.com/bokeh/bokeh">bokeh</a>, <a href="http://ggplot.yhathq.com/">ggplot</a>, <a href="https://networkx.github.io/">networkx</a></p>
+  </li>
+</ul>
+
+<h3 id="check-list">check list</h3>
+
+<ul>
+  <li>
+    <p>领域知识</p>
+  </li>
+  <li>
+    <p>确认数据是否符合直觉</p>
+  </li>
+  <li>
+    <p>理解数据如何生成</p>
+  </li>
+  <li>
+    <p>单独的探索每个特征</p>
+  </li>
+  <li>
+    <p>成对的或者整体的探索每个特征</p>
+  </li>
+  <li>
+    <p>清理特征</p>
+
+    <p>固定值的特征、与其他特征一致的特征</p>
+  </li>
+  <li>
+    <p>数据泄露</p>
+  </li>
+</ul>
+
+<h3 id="总结">总结</h3>
+
+<ol>
+  <li>
+    <p>理解每个特征</p>
+  </li>
+  <li>
+    <p>每个特征的分布（直方图、与label的散点图）
+  是否符合直觉：有异常值考虑进行处理
+  缺失值处理
+  举办方进行了缺失值处理（将其恢复为缺失值会帮助xgboost）
+  跟label有什么规律</p>
+  </li>
+  <li>
+    <p>特征间的关系
+  两两间的散点图
+  协方差热力图
+  （scatter_matrix可以总和2、3）</p>
+  </li>
+  <li>
+    <p>训练集/测试集的分布对比
+  帮助合理分割验证集</p>
+  </li>
+</ol>
+
+<h2 id="feature-engineering">Feature Engineering</h2>
+<hr>
+
+<ol>
+  <li>groupby</li>
+</ol>
+
+<p>同一个类进行聚合：均值、数量、target均值等</p>
+
+<p>如果没有同一类的，也可以考虑根据距离远近分类再聚合：对坐标聚类、找出最近的n个点</p>
+
+<ol>
+  <li>Matrix factorizations</li>
+</ol>
+
+<p>提取item的属性作为附加属性；或者用在词向量降维</p>
+
+<ul>
+  <li>
+    <p>SVD, PCA</p>
+  </li>
+  <li>
+    <p>Truncated SVD: 用在稀疏矩阵，比如词向量</p>
+  </li>
+  <li>
+    <p>Non-negative Matrix Factorization(NMF): 用在非负矩阵，比如count数据</p>
+
+    <p>NMF(X)很适合树模型；NMF(log(X+1))很适合线性模型</p>
+  </li>
+</ul>
+
+<ol>
+  <li>feature interactions</li>
+</ol>
+
+<ul>
+  <li>
+    <p>特征两两联结</p>
+
+    <p>分类特征：两个特征合并为一个特征，然后进行onehot</p>
+
+    <p>数值特征：加减乘除</p>
+  </li>
+  <li>
+    <p>高维特征联结</p>
+
+    <p>使用多个特征进行联结，列出所有情况就不太现实了，这个时候可以考虑使用决策树</p>
+
+    <p><img src="/MachineLearning/other/assets/kaggle/extract_feature_from_DT.jpg" alt=""></p>
+
+    <p>将特征输入，获取特征会走到哪个叶子节点上，使用index作为feature</p>
+
+    <div class="language-python highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="c1"># in sklearn
+</span><span class="n">tree_model</span><span class="p">.</span><span class="nb">apply</span><span class="p">()</span>
+<span class="c1"># in xgboost
+</span><span class="n">booster</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">pred_leaf</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="valdation-dataset">Valdation dataset</h2>
+<hr>
+
+<h3 id="数据分割的方式">数据分割的方式</h3>
+
+<ul>
+  <li>
+    <p>随机分割</p>
+  </li>
+  <li>
+    <p>按时间分割</p>
+
+    <ul>
+      <li>分成两段</li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>week1</th>
+          <th>week2</th>
+          <th>week3</th>
+          <th>week4</th>
+          <th>week5</th>
+          <th>week6</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Train</td>
+          <td>Train</td>
+          <td>Train</td>
+          <td>Val</td>
+          <td>Val</td>
+          <td>Val</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ul>
+      <li>移动窗口</li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>week1</th>
+          <th>week2</th>
+          <th>week3</th>
+          <th>week4</th>
+          <th>week5</th>
+          <th>week6</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Train</td>
+          <td> </td>
+          <td> </td>
+          <td>Val</td>
+          <td> </td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td>Train</td>
+          <td> </td>
+          <td> </td>
+          <td>Val</td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td> </td>
+          <td>Train</td>
+          <td> </td>
+          <td> </td>
+          <td>Val</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p>按ID分割</p>
+
+    <p>如：训练集是老用户，测试集是新用户</p>
+  </li>
+</ul>
+
+<p>总而言之，契合训练集/测试集的分割方式去分割验证集</p>
+
+<h3 id="不同分割策略的影响">不同分割策略的影响</h3>
+
+<ol>
+  <li>特征生成的方式</li>
+</ol>
+
+<p>比如使用按时间顺序排序的上一条记录的特征，那按时间分割的验证集就会基本都是空值</p>
+
+<ol>
+  <li>模型依赖特征的方式</li>
+</ol>
+
+<p>比如训练数据是前几个月的数据，测试数据是后几个月的数据，整体呈上升趋势，如果随机分割得到验证集，那么模型无法捕获上升趋势这个点，在测试集上性能就会较差</p>
+
+<p>对应不同的分割，选取不同的特征生成策略</p>
+
+<h3 id="尝试">尝试</h3>
+
+<p>可以先试试K-Fold，如果每个Fold性能都差不多，那可以使用Holdout，因为训练集比较均匀；如果每个Fold性能差很多，说明数据分布不太均匀，继续使用K-Fold</p>
+
+<h3 id="资料">资料</h3>
+
+<p>http://scikit-learn.org/stable/modules/cross_validation.html</p>
+
+<p>http://www.chioka.in/how-to-select-your-final-models-in-a-kaggle-competitio/</p>
+
+<h2 id="hyper-parameters-tuning">hyper-parameters tuning</h2>
+<hr>
+
+<p>http://scikit-learn.org/stable/modules/grid_search.html</p>
+
+<p>auto tuning tools:
+http://fastml.com/optimizing-hyperparams-with-hyperopt/</p>
+
+<p>tuning gbdt:
+https://www.analyticsvidhya.com/blog/2016/02/complete-guide-parameter-tuning-gradient-boosting-gbm-python/</p>
+
+<h2 id="ensemble">Ensemble</h2>
+<hr>
+
+<h3 id="bagging">Bagging</h3>
+
+<p>每个子树独立</p>
+
+<h3 id="boosting">Boosting</h3>
+
+<p>上一个分错的加大权重；基于残差的提升树</p>
+
+<ul>
+  <li>
+    <p>xgboost</p>
+  </li>
+  <li>
+    <p>lightgbm</p>
+  </li>
+  <li>
+    <p>H2O’s GBM</p>
+  </li>
+  <li>
+    <p>catboost</p>
+  </li>
+  <li>
+    <p>sklearn’s GBM</p>
+
+    <p>可以选择任何类型的模型作为基模型</p>
+  </li>
+</ul>
+
+<h3 id="stacking">Stacking</h3>
+
+<p>先用几个模型在train上fit，然后对valdation进行预测，将结果stack，然后再用一个模型（meta-model）对这个结果进行预测，得到target</p>
+
+<p><strong>注意点</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 需要子模型多样化：使用不同的模型，不同的输入特征，不同的特征工程
+
+2. 刚开始会有显著提升，随着子模型不断加入，会到达一个稳定状态
+
+3. meta-model一般使用简单的模型，它只需要找出各个子模型擅长的部分，比如使用浅深度的随机森林
+</code></pre></div></div>
+
+<h3 id="stacknet">StackNet</h3>
+
+<p>相当于做多层的Stacking，结构有点类似神经网络，只不过StackNet的每个节点可以是任意的模型，另外每个节点不仅仅可以使用上一层的输出，也可以使用任意一个节点的输出</p>
+
+<p><strong>如何训练</strong></p>
+
+<p>将数据进行KFold，然后每次用K-1份去训练，对剩下一份进行预测作为结果，然后拼成一个完整的预测结果</p>
+
+<h3 id="reference">Reference</h3>
+
+<p>https://mlwave.com/kaggle-ensembling-guide/</p>
+
+<p>https://mlwave.com/human-ensemble-learning/</p>
+
+<p>https://www.coursera.org/learn/competitive-data-science/supplement/JThpg/validation-schemes-for-2-nd-level-models</p>
+
+<h2 id="其他">其他</h2>
+<hr>
+
+<p>https://dnc1994.com/2016/04/rank-10-percent-in-first-kaggle-competition/</p>
+
+<p><strong>notebook trick</strong></p>
+
+<p>https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/</p>
+
+<p><strong>tools github</strong></p>
+
+<p>https://github.com/Far0n/kaggletils</p>
+
+<p>https://github.com/rushter/heamy</p>
+
+<p>stacknet: https://github.com/kaz-Anova/StackNet</p>
+
+<h2 id="todo">TODO</h2>
+<hr>
+
+<ul>
+  <li>验证集score比LB得分高怎么办？</li>
+</ul>
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

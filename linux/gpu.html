@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>GPU envs install | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="GPU envs install">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/linux/gpu.html">
+<meta property="og:url" content="https://hahadsg.github.io/linux/gpu.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="GPU envs install">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"GPU envs install","url":"https://hahadsg.github.io/linux/gpu.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2 id="gpu-envs-install">GPU envs install</h2>
+
+<h3 id="apt-get-ubuntu">apt-get (ubuntu)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>add-apt-repository ppa:graphics-drivers/ppa
+<span class="nb">sudo </span>apt update
+<span class="nb">sudo </span>apt <span class="nb">install </span>nvidia-390
+<span class="nb">sudo </span>apt <span class="nb">install </span>nvidia-cuda-toolkit
+<span class="nb">sudo </span>reboot
+</code></pre></div></div>
+
+<h3 id="yum-centos">yum (centos)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 添加ELRepo源</span>
+<span class="nb">sudo </span>rpm <span class="nt">--import</span> https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+<span class="nb">sudo </span>rpm <span class="nt">-Uvh</span> http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+
+<span class="c"># One must install kernel-devel and gcc kernel on a CentOS 7:</span>
+<span class="nb">sudo </span>yum group <span class="nb">install</span> <span class="s2">"Development Tools"</span>
+<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>gcc kernel-devel kernel-headers
+
+<span class="c"># You must install dkms for registering the NVIDA kernel module with DKMS:</span>
+<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>epel-release
+<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>dkms
+
+<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>nvidia-detect
+
+<span class="c"># 检查显卡型号</span>
+nvidia-detect <span class="nt">-v</span>
+
+<span class="c"># 根据显卡型号安装驱动，下面这个是最新的</span>
+<span class="nb">sudo </span>yum <span class="nt">-y</span> <span class="nb">install </span>kmod-nvidia
+
+<span class="c"># 重启</span>
+<span class="nb">sudo </span>reboot
+
+<span class="c"># 安装CUDA9.0（注意tensorflow1.x都是用CUDA9.0）</span>
+<span class="nb">sudo </span>yum remove <span class="s2">"cuda*"</span>
+wget https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-repo-rhel7-9.0.176-1.x86_64.rpm
+<span class="nb">sudo </span>rpm <span class="nt">-i</span> cuda-repo-rhel7-9.0.176-1.x86_64.rpm
+<span class="nb">sudo </span>yum <span class="nb">install </span>cuda-9-0
+
+<span class="c"># 安装cuDNN7.+</span>
+<span class="c"># 到这里链接下载CUDA9.0对应的cuDNN（对于centos三个lib都下载）</span>
+<span class="c"># https://developer.nvidia.com/rdp/cudnn-archive</span>
+<span class="nb">sudo </span>rpm <span class="nt">-ivh</span> libcudnn7-7.6.4.38-1.cuda9.0.x86_64.rpm
+<span class="nb">sudo </span>rpm <span class="nt">-ivh</span> libcudnn7-devel-7.6.4.38-1.cuda9.0.x86_64.rpm
+<span class="nb">sudo </span>rpm <span class="nt">-ivh</span> libcudnn7-doc-7.6.4.38-1.cuda9.0.x86_64.rpm
+
+<span class="c"># 重启</span>
+<span class="nb">sudo </span>reboot
+</code></pre></div></div>
+
+<h3 id="查询命令">查询命令</h3>
+
+<ul>
+  <li>显示nvidia情况</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvidia-smi
+</code></pre></div></div>
+
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>DCN | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="DCN">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/ComputationalAdvertising/CTR/DCN.html">
+<meta property="og:url" content="https://hahadsg.github.io/ComputationalAdvertising/CTR/DCN.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2019-09-07T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="DCN">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2019-09-07T00:00:00+00:00","datePublished":"2019-09-07T00:00:00+00:00","headline":"DCN","mainEntityOfPage":{"@type":"WebPage","@id":"https://hahadsg.github.io/ComputationalAdvertising/CTR/DCN.html"},"url":"https://hahadsg.github.io/ComputationalAdvertising/CTR/DCN.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1 id="dcn-deep--cross-network">DCN (Deep &amp; Cross Network)</h1>
+
+<h2 id="基本结构">基本结构</h2>
+
+<p>我们先看看DCN的整体结构：</p>
+
+<p><img src="./assets/DCN/DCN_Architecture.png" alt="drawing" width="500"></p>
+
+<p>下面将其分为三部分去详细讲</p>
+
+<h3 id="embedding-and-stacking-layer">Embedding and Stacking Layer</h3>
+
+<p>该层将原始特征进行embedding和拼接：对于稀疏特征（一般是onehot出来的），进行embedding；稠密特征直接放进去</p>
+
+<p>所以\(x_0\)为：</p>
+
+\[x_0 = \left[ x^T_{embed, 1},...,x^T_{embed, k},x^T_{dense} \right]\]
+
+<p>这里的\(k\)是稀疏特征的数量，注意最后有一个稠密特征的\(X\)</p>
+
+<p>然后，上面提到的embedding实际会乘上特征的值后放入\(x_0\)，即：</p>
+
+\[x_{embed,i} = W_{embed,i}x_i\]
+
+<h3 id="cross-network">Cross Network</h3>
+
+<p>这个部分即为DCN的核心部分，我们可以先这么理解，这一层干的事情相当于把DeepFM的FM部分改成了High-Order FM</p>
+
+<p>这一层的公式为：</p>
+
+\[x_{l+1} = x_0 x_l^T w_l + b_l + x_l = f(x_l, w_l, b_l) + x_l\]
+
+<p>是不是看起来很像残差网络，\(f(x_l, w_l, b_l)\)就是在拟合残差\(x_{l+1} - x_l\)</p>
+
+<p>下图展示了具体如何得到\(x_{l+1}\)</p>
+
+<p><img src="./assets/DCN/DCN_CrossNetwork.png" alt="drawing" width="300"></p>
+
+<p>这里的参数数量是\(d \times L_c \times 2\)，其中，\(d\)是输入特征维度，\(L_c\)是层数</p>
+
+<p>（这里为什么不是\(d \times d \times L_c \times 2\)？是因为，可以先算\(x^T_l w_l\)，得到\(1 \times 1\)的阵）</p>
+
+<p>另外，这一层表达了High-Order FM，第\(l\)层表达了{l+1}-way的FM，具体原因后面详解</p>
+
+<h3 id="deep-network">Deep Network</h3>
+
+<p>这个部分就是几层全连接层，公式为：</p>
+
+\[h_{l+1} = f(W_l h_l + b_l)\]
+
+<p>这里的\(f(\cdot)\)是ReLU</p>
+
+<p>这一层的参数数量是\(d \times m + m + \left( m^2 + m \right) \times \left( L_d - 1 \right)\)</p>
+
+<h2 id="cross-network详解">Cross Network详解</h2>
+
+<p>符号定义：\(w_j\)的第\(i\)个元素为\(w_j^{(i)}\)；对于\(\alpha = \left[ \alpha_1, ..., \alpha_d \right] \in \mathbb{N}^d\)，我们定义\(\lvert\alpha\rvert = \sum\limits^d_{i=1}\alpha_i\)，下面\(\alpha\)的作用就是表示特征的次方和，也就是用来表达特征多项式的度（degree of polynomial term）</p>
+
+<p>下面都先省略bias，即\(b_i = 0\)</p>
+
+<h3 id="polynomial-approximation">Polynomial Approximation</h3>
+
+<p>我们先看看变量数为\(d\)，度为\(n\)多项式的公式：</p>
+
+\[P_n(x) = \left\{ \sum\limits_{\alpha} w_{\alpha} x_1^{\alpha_1} x_2^{\alpha_2} ... x_d^{\alpha_d} \mid 0 \leq \lvert\alpha\rvert \leq n, \alpha \in \mathbb{N}^d \right\}\]
+
+<p>我们再看到{i+1}-th层：\(x_{i+1} = x_0 x^T_i w_i + x_i\)，定义\(g_l(x_0) = x^T_i w_i\)，得到</p>
+
+\[g_l(x_0)  = \left\{ \sum\limits_{\alpha} c_{\alpha} \left( w_0, ..., w_l \right) w_{\alpha} x_1^{\alpha_1} x_2^{\alpha_2} ... x_d^{\alpha_d} \mid 0 \leq \lvert\alpha\rvert \leq l + 1, \alpha \in \mathbb{N}^d \right\}\]
+
+<p>（我们先不细究\(c_{\alpha}\)是什么，以及具体如何推导，这个细节请参考论文）</p>
+
+<p>\(g_l(x_0)\)相当于多项式\(P_{l+1}(x)\)，也就是相当于{l+1}-way的FM</p>
+
+<h3 id="generalization-of-fm">Generalization of FM</h3>
+
+<p>DCN扩展了FM，能够得到High-Order的FM（由Cross Network的深度决定）</p>
+
+<p>我们回顾一下公式：\(x_{l+1} = x_0 x_l^T w_l + b_l + x_l\)</p>
+
+<p>前面讲了\(x^T_i w_i\)相当于{l+1}-way的FM，而\(x_l\)拟合了0-way到l-way的FM，所以\(x_{l+1}\)就拟合了0-way到{l+1}-way的FM，每增加一层就多拟合了一项高阶FM</p>
+
+<p>（这里我有一点困惑了，\(x^T_i w_i\)相当于{l+1}-way的FM，那又乘了一个\(x_0\)不是就变成{l+2}-way的FM了？所以我觉得是\(x_0 x^T_i w_i\)相当于{l+1}-way的FM）</p>
+
+<h3 id="efficient-projection">Efficient Projection</h3>
+
+<p>考虑\(\tilde{x} \in \mathbb{R}^d\)作为输入，\(x_p = x_0 \tilde{x}^T w\)作为输出，那么</p>
+
+<p><img src="./assets/DCN/DCN_EfficientProjection.png" alt="drawing" width="300"></p>
+
+<p>前半部分产生了\(d^2\)个\(x_i \tilde{x_j}\)的对，注意这里的\(w \in \mathbb{R}^d\)在后半部分都是一列一列的</p>
+
+<p>所以DCN将交叉的部分做了压缩，最终输出的不是\(d^2\)个数，而是\(d\)个数，这样做使整体效率更高</p>
+
+<h1 id="总结">总结</h1>
+
+<p>DCN在DeepFM的基础上将FM部分改成了High-Order的FM，高阶的程度取决于Cross Network的深度</p>
+
+<h1 id="参考">参考</h1>
+
+<p><a href="https://arxiv.org/pdf/1708.05123.pdf">Deep &amp; Cross Network for Ad Click Predictions</a></p>
+
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

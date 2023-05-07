@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/css/style.css?v=1db909fa1f06ea7ae5dc1a7973fa98b17f58e65a" media="screen" type="text/css">
+    <link rel="stylesheet" href="/assets/css/print.css" media="print" type="text/css">
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Neo4j browser config | hahadsg’s note</title>
+<meta name="generator" content="Jekyll v3.9.3">
+<meta property="og:title" content="Neo4j browser config">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://hahadsg.github.io/MachineLearning/other/neo4j.html">
+<meta property="og:url" content="https://hahadsg.github.io/MachineLearning/other/neo4j.html">
+<meta property="og:site_name" content="hahadsg’s note">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Neo4j browser config">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"Neo4j browser config","url":"https://hahadsg.github.io/MachineLearning/other/neo4j.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://hahadsg.github.io/">
+          <h1>hahadsg's note</h1>
+        </a>
+        <h2></h2>
+        
+        
+          <a href="https://github.com/hahadsg" class="button"><small>Follow me on</small> GitHub</a>
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h2 id="neo4j-browser-config">Neo4j browser config</h2>
+
+<p>显示node数上限<code class="language-plaintext highlighter-rouge">:config initialNodeDisplay: 1000</code></p>
+
+<h2 id="neo4j-browser-trick">Neo4j browser trick</h2>
+
+<ul>
+  <li>
+    <p><strong>将图片缩小</strong></p>
+
+    <p>显示的图片是SVG格式的，在Chrome审查元素中将svg下的g作以下设置</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;svg&gt;
+    &lt;g transform="translate(0,0)scale(0.1)"&gt;...&lt;/g&gt;
+&lt;/svg&gt;
+</code></pre></div></div>
+
+<h2 id="syntax">syntax</h2>
+
+<ul>
+  <li>load csv</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">load</span> <span class="n">csv</span> <span class="k">with</span> <span class="n">headers</span> <span class="k">from</span> <span class="nv">"file:///file.csv"</span> <span class="k">as</span> <span class="k">row</span>
+<span class="n">merge</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Person</span> <span class="err">{</span><span class="n">attr</span><span class="p">:</span> <span class="k">row</span><span class="p">.</span><span class="n">from_node</span><span class="err">}</span><span class="p">)</span>
+<span class="n">merge</span> <span class="p">(</span><span class="n">b</span><span class="p">:</span><span class="n">Person</span> <span class="err">{</span><span class="n">attr</span><span class="p">:</span> <span class="k">row</span><span class="p">.</span><span class="n">to_node</span><span class="err">}</span><span class="p">)</span>
+<span class="n">merge</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">Edge</span> <span class="err">{</span><span class="n">attr</span><span class="p">:</span> <span class="k">row</span><span class="p">.</span><span class="n">edge</span><span class="err">}</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>show all</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">match</span> <span class="n">p</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">p</span>
+</code></pre></div></div>
+
+<h2 id="demo">demo</h2>
+
+<ul>
+  <li>cluster coefficient</li>
+</ul>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">match</span> <span class="p">(</span><span class="n">u1</span><span class="p">:</span><span class="k">User</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">InteractsWith</span><span class="p">]</span><span class="o">-</span><span class="p">(</span><span class="n">u2</span><span class="p">:</span><span class="k">User</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">u1</span><span class="p">,</span> <span class="n">collect</span><span class="p">(</span><span class="k">distinct</span> <span class="n">u2</span><span class="p">.</span><span class="n">id</span><span class="p">)</span> <span class="k">as</span> <span class="n">neighbors</span>
+<span class="k">match</span> <span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="k">where</span> <span class="n">a</span><span class="p">.</span><span class="n">id</span> <span class="k">in</span> <span class="n">neighbors</span> <span class="k">and</span> <span class="n">b</span><span class="p">.</span><span class="n">id</span> <span class="k">in</span> <span class="n">neighbors</span>
+<span class="k">with</span> <span class="n">u1</span><span class="p">,</span> <span class="k">length</span><span class="p">(</span><span class="n">neighbors</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="k">length</span><span class="p">(</span><span class="n">neighbors</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">total_num</span>
+    <span class="p">,</span> <span class="k">sum</span><span class="p">(</span><span class="k">case</span> <span class="k">when</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">-</span><span class="p">[:</span><span class="n">InteractsWith</span><span class="p">]</span><span class="o">-&gt;</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="k">then</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">end</span><span class="p">)</span> <span class="k">as</span> <span class="n">link_num</span>
+<span class="k">with</span> <span class="n">u1</span><span class="p">,</span> <span class="n">link_num</span> <span class="o">*</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="n">total_num</span> <span class="k">as</span> <span class="n">cluster_coef</span><span class="p">,</span> <span class="n">link_num</span><span class="p">,</span> <span class="n">total_num</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">cluster_coef</span> <span class="k">desc</span>
+<span class="k">return</span> <span class="n">u1</span><span class="p">.</span><span class="n">id</span><span class="p">,</span> <span class="n">cluster_coef</span><span class="p">,</span> <span class="n">link_num</span><span class="p">,</span> <span class="n">total_num</span>
+</code></pre></div></div>
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+
+          <p>由于笔记大部分来自于我之前的gitbook，可能会因为markdown规范不同导致公式显示错误，如果有显示错误请<a href="https://github.com/hahadsg/hahadsg.github.io/issues">找我</a>，感谢</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>
