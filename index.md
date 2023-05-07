@@ -4,7 +4,7 @@ title: hahadsg's note
 
 # [计算广告](./ComputationalAdvertising/index.md)
 
-# [机器学习](./AIGC/index.md)
+# [AIGC](./AIGC/index.md)
 
 # [机器学习](./MachineLearning/index.md)
 
